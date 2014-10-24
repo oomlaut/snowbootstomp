@@ -23,7 +23,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: [
-                	'<%= files.path.bower %>/foundation/modernizr/modernizr.js'
+                	'<%= files.path.bower %>/foundation/modernizr/modernizr.js',
                 	'<%= files.path.bower %>/foundation/jquery/dist/jquery.min.js',
                 	'<%= files.path.scripts %>/src/social.js',
                 	'<%= files.path.scripts %>/src/social.js'
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
                 options: {
                     environment: 'production',
                     outputStyle: 'compressed',
-                    noLineComments: true,
+                    noLineComments: true
                 }
             },
             clean: {
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
 
 		scsslint: {
 			allFiles: [
-			  '<%= files.path.styles %>/**/*.scss',
+			  '<%= files.path.styles %>/**/*.scss'
 			],
 			options: {
 			  reporterOutput: 'scss-lint-report.xml',

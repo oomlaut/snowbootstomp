@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="mychessboard" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="mychessboard" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="mychessboard" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="mychessboard" class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>mychessboard</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+		<link rel="stylesheet" href="styles/main.css">
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+	</head>
+	<body ng-controller="ctrl">
+		<!--[if lt IE 7]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<!-- Add your site or application content here -->
+		<h1>Current turn: {{data.players[data.current.player]}} ({{data.current.player}})</h1>
+
+		<div id="container" ng-if="data" ng-class="{'in-progress': moving}">
+
+			<div ng-repeat="rank in data.labels.ranks" class="rank" data-rank="{{rank}}">
+				<label>{{rank}}</label>
+				<div ng-repeat="file in data.labels.files" class="file" data-file="{{file}}" id="{{file}}{{data.delimiter}}{{rank}}" ng-class="{'start': origin.ords == (file + data.delimiter + rank)}" ng-click="track(file, rank)">
+					<i ng-if="data.current[file][rank]" class="piece" ng-bind-html="char(data.current[file][rank])"></i>
+				</div>
+			</div>
+
+			<div class="corral">
+				<i ng-repeat="piece in data.current.pieces" class="piece" ng-bind-html="char(piece)"></i>
+			</div>
+
+			<div class="file-labels">
+				<label ng-repeat="file in data.labels.files">{{file}}</label>
+			</div>
+
+			<div class="btn-group">
+				<button ng-if="backup && confirm" type="button" class="btn" ng-click="submit()">Submit</button>
+				<button ng-if="moving" type="button" class="btn" ng-click="cancel()">Cancel</button>
+				<button type="button" class="btn" ng-click="refresh()">Refresh</button>
+				<button type="button" class="btn" ng-click="reset()">New Game</button>
+			</div>
+		</div>
+
+		<div id="players">
+			<button ng-if="!players.editing" type="button" class="btn" ng-click="players.edit()">Edit Players</button>
+
+			<div ng-if="players.editing" ng-repeat="(key, value) in players.data.players">
+				<label for="{{key}}" capitalizeFirst>{{key}}</label>
+				<input name="{{key}}" id="{{key}}" ng-model="players.data.players[key]" >
+			</div>
+
+			<button ng-if="players.editing" type="button" class="btn" ng-click="players.cancel()">Cancel</button>
+			<button ng-if="players.editing" type="button" class="btn" ng-click="players.save()">Save</button>
+		</div>
+
+		<script src="scripts/app.js"></script>
+		<script src="scripts/appSvc.js"></script>
+		<script src="scripts/appCtrl.js"></script>
+
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
+		<script>
+			(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+			function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+			e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+			e.src='//www.google-analytics.com/analytics.js';
+			r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+			ga('create','UA-XXXXX-X');ga('send','pageview');
+		</script>
+		 -->
+	</body>
+</html>

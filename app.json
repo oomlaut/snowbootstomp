@@ -1,0 +1,7 @@
+{
+  "name": "Snowboot Stomp",
+  "description": "Web app companion to the event",
+  "repository": "https://github.com/oomlaut/snowbootstomp",
+  "logo": "http://snowbootstomp.herokuapp.com/images/node.svg",
+  "keywords": ["node", "express", "static"]
+}

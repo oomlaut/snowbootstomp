@@ -1,0 +1,178 @@
+@import "bourbon/app/assets/stylesheets/bourbon";
+@import "helpers";
+@import "print";
+
+@media only screen and (min-width: 35em) {
+	/* Style adjustments for viewports that meet the condition */
+}
+
+
+//theming
+$labelColor:hsla(0, 0%, 20%,1);
+$blackSquare:hsla(0, 0%, 35%,1);
+$whiteSquare:hsla(0, 0%, 95%, 1);
+$hoverSquare:hsla(50, 95%, 55%, .66);
+$selectSquare:hsla(125, 95%, 35%,.66);
+$errorSquare:hsla(10,85%, 40%, 1);
+
+
+$widthContainer: 480px;
+$widthSquare: $widthContainer/8;
+
+$pieceSize: $widthSquare/2;
+
+html{
+	font-family:Sans-serif;
+	font-size:100%;
+}
+html, html a {
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+
+body{
+	padding:20px 0 50px;
+}
+
+h1{
+	text-align:center;
+}
+
+#container{
+	border:1px solid #555;
+	margin:40px auto 0;
+	position:relative;
+	width:$widthContainer;
+}
+
+label {
+	color:$labelColor;
+	font-weight:bold;
+}
+
+.rank{
+	@include clearfix;
+	position:relative;
+	background-color:$whiteSquare;
+
+	label{
+		height:1em;
+		line-height:1;
+		margin-right:1em;
+		margin-top:-.5em;
+		position:absolute;
+		right:100%;
+		text-align:center;
+		top:50%;
+		width:1em;
+	}
+
+	.file:nth-child(even){
+		background-color:$blackSquare;
+	}
+	&:nth-child(even){
+		background-color:$blackSquare;
+		.file:nth-child(even){
+			background-color:$whiteSquare;
+		}
+	}
+	.start{
+		background-color:$hoverSquare !important;
+	}
+	.move-to{
+		background-color:$selectSquare;
+	}
+}
+
+.file{
+	float:left;
+	display:inline;
+	position:relative;
+	width:$widthSquare;
+	height:$widthSquare;
+
+	.piece{
+		left:50%;
+		margin-left:0 - $pieceSize;
+		margin-top:0 - $pieceSize;
+		padding:$pieceSize/2;
+		position:absolute;
+		top:50%;
+
+		&:hover{
+			background-color:$hoverSquare;
+			cursor:pointer;
+			.in-progress &{
+				background-color:transparent;
+				cursor:default;
+			}
+		}
+	}
+
+	.in-progress &:hover{
+		background-color:$selectSquare !important;
+		&.start .piece{
+			background-color:$errorSquare !important;
+		}
+	}
+}
+
+.piece{
+		font-size:$pieceSize;
+		font-style: normal;
+		height:$pieceSize;
+		line-height:1;
+		text-align:center;
+		text-shadow:0 0 10px $whiteSquare;
+		vertical-align: center;
+		width:$pieceSize;
+}
+
+.corral{
+	position:absolute;
+	left:100%;
+	top:0;
+	height:$widthContainer/2;
+	width:$widthContainer/4;
+	.piece{
+		display:inline-block;
+		margin:.5em;
+	}
+}
+
+.file-labels{
+	@include clearfix;
+	position:absolute;
+	width:$widthContainer;
+	top:100%;
+	left:0;
+	label{
+		float:left;
+		width:$widthSquare;
+		text-align:center;
+		padding-top:1em;
+	}
+}
+
+.btn-group{
+	position:absolute;
+	width:100%;
+	bottom:100%;
+	text-align:right;
+	margin-top:1em;
+	padding-bottom:.5em;
+	.btn{
+		display:inline-block;
+	}
+}
+
+#players{
+	@extend #container;
+	border-width:0;
+	label{
+		text-transform: capitalize;
+	}
+	div{
+		padding-top:20px;
+	}
+}

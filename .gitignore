@@ -39,11 +39,13 @@ bower_components
 # SASS Components
 .sass-cache
 
+# SCSS Lint Reporting
+scss-lint-report.xml
+
 # Source Maps
 *.map
 
 # compiled assets
 public/styles/*.css
-
-# Data
-data.json
+public/scripts/*.concat.js
+public/scripts/*.min.js

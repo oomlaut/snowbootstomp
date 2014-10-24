@@ -23,9 +23,11 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: [
-                	'<%= files.path.bower %>/foundation/modernizr/modernizr.js',
-                	'<%= files.path.bower %>/foundation/jquery/dist/jquery.min.js',
-                	'<%= files.path.scripts %>/src/social.js',
+                	'<%= files.path.bower %>/foundation/js/vendor/modernizr.js',
+                	'<%= files.path.bower %>/foundation/js/vendor/jquery.js',
+                	'<%= files.path.bower %>/foundation/js/vendor/fastclick.js',
+                	'<%= files.path.bower %>/foundation/js/vendor/placeholder.js',
+                	'<%= files.path.bower %>/foundation/js/foundation.min.js',
                 	'<%= files.path.scripts %>/src/social.js'
                 ],
                 dest: '<%= files.path.scripts %>/main.concat.js'

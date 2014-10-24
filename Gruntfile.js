@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 			},
 			scripts:{
 				files:['public/scripts/src/*.js'],
-				tasks: ['concat', 'uglify']
+				tasks: ['build-js']
 			},
 			styles:{
 				files:['<%= files.path.styles %>/src/**/*'],
@@ -104,10 +104,13 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['dev', 'watch']);
-	grunt.registerTask('dev', ['compass:dev']);
-	grunt.registerTask('dist', ['compass:dist']);
-	grunt.registerTask('lint', ['jshint']);
+	grunt.registerTask('build-js', ['concat', 'uglify']);
+	grunt.registerTask('dev', ['build-js', 'compass:dev']);
+	grunt.registerTask('dist', ['build-js', 'compass:dist']);
 
+	grunt.registerTask('lint', ['scsslint', 'jshint']);
+
+    // Tasks for use on Heroku
     grunt.registerTask('heroku:development', ['dev']);
     grunt.registerTask('heroku:production', ['dist']);
 

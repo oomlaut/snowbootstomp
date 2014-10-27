@@ -19,9 +19,14 @@
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-uglify": "~0.3.2",
     "grunt-contrib-watch": "~0.5.3",
-    "load-grunt-tasks": "^0.6.0"
+    "load-grunt-tasks": "^0.6.0",
+    "mysql": "^2.5.2",
+    "sequelize": "^2.0.0-rc1",
+    "sequelize-mysql": "^1.7.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sequelize-cli": "^0.3.3"
+  },
   "engines": {
     "node": "0.10.x"
   },

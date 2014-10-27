@@ -1,7 +1,7 @@
 // Additional JS functions here
 var app = {
     uri:    "//" + window.location.hostname,
-    id:     ''
+    id:     '748687018544609'
 };
 
 // https://developers.facebook.com/docs/facebook-login/getting-started-web/
@@ -11,7 +11,8 @@ window.fbAsyncInit = function() {
         channelUrl : app.uri + '/channel.html', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
-        xfbml      : true  // parse XFBML
+        xfbml      : true, // parse XFBML
+        version    : 'v2.1'
     });
     FB.getLoginStatus(function(response) {
         //console.dir(response);
@@ -62,6 +63,14 @@ window.fbAsyncInit = function() {
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=" + app.id;
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+// (function(d, s, id){
+//  var js, fjs = d.getElementsByTagName(s)[0];
+//  if (d.getElementById(id)) {return;}
+//  js = d.createElement(s); js.id = id;
+//  js.src = "//connect.facebook.net/en_US/sdk.js";
+//  fjs.parentNode.insertBefore(js, fjs);
+// }(document, 'script', 'facebook-jssdk'));
 
 // Google Analytics
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

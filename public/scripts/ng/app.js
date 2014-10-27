@@ -1,3 +1,3 @@
 'use strict';
 
-var app = angular.module('snowbootstomp', [])
+var app = angular.module('SnowBootStomp', [])

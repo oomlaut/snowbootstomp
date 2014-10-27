@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="SnowBootStomp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="SnowBootStomp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="SnowBootStomp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="SnowBootStomp" class="no-js"> <!--<![endif]-->
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,19 +13,110 @@
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="stylesheet" href="styles/main.css">
 
-		<script src="scripts/main.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		<script src="/scripts/main.min.js"></script>
+		<script src="/scripts/ng/app.js"></script>
+		<script src="/scripts/ng/svc.js"></script>
+		<script src="/scripts/ng/ctrl.js"></script>
 
 	</head>
-	<body>
+	<body ng-controller="ctrl">
 		<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 
 		<!-- Add your site or application content here -->
 
-		<h1>Snowboot Stomp</h1>
+		<header class="contain-to-grid sticky">
+			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+				<ul class="title-area">
+					<li class="name">
+					<h1><a href="#">Snowboot Stomp</a></h1>
+					</li>
+					<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+				</ul>
 
+				<section class="top-bar-section">
 
+					<!-- Left Nav Section -->
+					<ul class="left">
+						<li><a href="#connect">Connect with Facebook</a></li>
+						<li><a href="#check-in">Check-in to Unlock Specials</a></li>
+					</ul>
+				</section>
+			</nav>
+		</header>
+
+		<div class="row" id="connect">
+			<div class="login">
+				<div class="columns medium-8">
+					<h2>Login to Facebook</h2>
+					<p>We won't collect any personal information from you at all.</p>
+					<p>Really.</p>
+					<p>Logging in will just allow us to link your already public name and profile image to the app for display purposes.</p>
+				</div>
+				<div class="columns medium-4">
+					Facebook button
+				</div>
+			</div>
+			<div class="thanks">
+				<div class="columns small-12">
+
+				</div>
+			</div>
+		</div>
+
+		<divid="check-in">
+			<div class="row">
+				<h2 class="columns large-12">Stops on the Stomp</h2>
+			</div>
+
+			<div class="row" ng-repeat="location in locations">
+			<!-- Google Maps API Key:  -->
+				<div class="streetview columns large-2">
+					<a class="th" href="#"><img class="" src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.longitude}},{{location.latitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
+				</div>
+
+				<div class="vcard columns large-3" itemscope itemtype="http://schema.org/LocalBusiness">
+					<h3 class="fn" itemprop="name">{{location.name}}</h3>
+					<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+						<span class="street-address" itemprop="streetAddress">{{location.street}}</span>
+						<span class="locality" itemprop="addressLocality">{{location.city}}</span>,
+						<span class="state" itemprop="addressRegion">{{location.state}}</span>
+						<span class="zip" itemprop="postalCode">{{location.zip}}</span>
+					</address>
+					<a role="button" href="//maps.apple.com/?daddr={{location.street}}%20{{location.city}},%20{{location.state}}%20{{location.zip}}" class="button tiny">Directions</a>
+				</div>
+
+				<div class="columns large-4">
+					<h4>Who's checked in</h4>
+					<ul class="checkins">
+						<li ng-repeat=""></li>
+					</ul>
+				</div>
+
+				<div class="columns large-3">
+					<div ng-show="!checkedIn">
+						<button class="button large">Check in</button>
+					</div>
+					<div ng-hide="checkedIn === ">
+						<h4>Specials</h4>
+						<p>{{location.details}}</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<footer class="row">
+			<div
+			  class="fb-like"
+			  data-share="true"
+			  data-width="450"
+			  data-show-faces="true">
+			</div>
+		</footer>
 
 	</body>
 </html>

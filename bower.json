@@ -16,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "foundation": ">=5.4.6"
+    "foundation": ">=5.4.6",
+    "font-awesome": ">=4.2.0",
+    "angular-facebook": "~0.2.3"
   }
 }

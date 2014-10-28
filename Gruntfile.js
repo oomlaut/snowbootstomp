@@ -7,12 +7,13 @@ module.exports = function(grunt) {
 
 		files:{
 			bower: 'bower_components',
-			images: 'public/images',
             dev: {
                 styles: 'dev/styles',
                 scripts: 'dev/scripts'
             },
             dist: {
+                fonts: 'public/fonts',
+                images: 'public/images',
                 styles: 'public/styles',
                 scripts: 'public/scripts'
             },
@@ -21,9 +22,29 @@ module.exports = function(grunt) {
 			}
 		},
 
+        copy: {
+            fonts: {
+                expand: true,
+                flatten: true,
+                src: '<%= files.bower %>/font-awesome/fonts/*',
+                dest: '<%= files.dist.fonts %>/'
+            }
+        },
+
 		concat: {
             options: {
                 separator: ';'
+            },
+            libs: {
+                src: [
+                    '<%= files.bower %>/foundation/js/vendor/modernizr.js',
+                    '<%= files.bower %>/foundation/js/vendor/jquery.js',
+                    '<%= files.bower %>/foundation/js/vendor/fastclick.js',
+                    '<%= files.bower %>/foundation/js/vendor/placeholder.js',
+                    '<%= files.bower %>/foundation/js/foundation.min.js',
+                    '<%= files.bower %>/angular-facebook/lib/angular-facebook.js'
+                ],
+                dest: '<%= files.dev.scripts %>/libs.concat.js'
             },
             ng: {
                 src: [
@@ -33,24 +54,13 @@ module.exports = function(grunt) {
                 ],
                 dest: '<%= files.dist.scripts %>/ng.js'
             },
-            main: {
-                src: [
-                	'<%= files.bower %>/foundation/js/vendor/modernizr.js',
-                	'<%= files.bower %>/foundation/js/vendor/jquery.js',
-                	'<%= files.bower %>/foundation/js/vendor/fastclick.js',
-                	'<%= files.bower %>/foundation/js/vendor/placeholder.js',
-                	'<%= files.bower %>/foundation/js/foundation.min.js',
-                	'<%= files.dev.scripts %>/src/social.js'
-                ],
-                dest: '<%= files.dev.scripts %>/main.concat.js'
-            }
         },
 
 		uglify: {
             options: {},
             dist:{
                 files: {
-                    '<%= files.dist.scripts %>/main.min.js': ['<%= files.dev.scripts %>/main.concat.js']
+                    '<%= files.dist.scripts %>/libs.min.js': ['<%= files.dev.scripts %>/libs.concat.js']
                 }
             }
         },
@@ -65,7 +75,7 @@ module.exports = function(grunt) {
             options: {
                 sassDir: '<%= files.dev.styles %>/src',
                 cssDir: '<%= files.dist.styles %>',
-                imagesDir: '<%= files.images %>',
+                imagesDir: '<%= files.dist.images %>',
                 javascriptsDir: '<%= files.dist.scripts %>',
                 importPath: '<%= files.bower %>',
                 force: true
@@ -106,10 +116,10 @@ module.exports = function(grunt) {
 				debounceDelay:1000,
 				livereload:false
 			},
-			scripts:{
-				files:['<%= files.dev.scripts %>/src/**/*.js'],
-				tasks: ['build-js']
-			},
+            scripts:{
+                files:['<%= files.dev.scripts %>/ng/*.js'],
+                tasks: ['build-ng']
+            },
 			styles:{
 				files:['<%= files.dev.styles %>/src/**/*.scss'],
 				tasks: ['compass:dev']
@@ -118,9 +128,11 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['dev', 'watch']);
-	grunt.registerTask('build-js', ['concat', 'uglify']);
-	grunt.registerTask('dev', ['build-js', 'compass:dev']);
-	grunt.registerTask('dist', ['build-js', 'compass:dist']);
+	grunt.registerTask('build-libs', ['concat:libs', 'uglify']);
+    grunt.registerTask('build-ng', ['concat:ng']);
+    grunt.registerTask('build-js', ['build-libs', 'build-ng'])
+	grunt.registerTask('dev', ['build-js', 'compass:dev', 'copy:fonts']);
+	grunt.registerTask('dist', ['build-js', 'compass:dist', 'copy:fonts']);
 
 	grunt.registerTask('lint', ['scsslint', 'jshint']);
 

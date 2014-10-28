@@ -2,11 +2,26 @@
 
 var fs        = require("fs");
 var path      = require("path");
+
+var config = {};
+
+console.log("process: ",process.env);
+if(process.env === "production"){
+    config = {
+        "database": process.env.DB_NAME,
+        "username": process.env.DB_USER,
+        "password": process.env.DB_PASS,
+        "host": process.env.DB_HOST,
+        "dialect": process.env.DB_DIALECT
+    }
+} else {
+    config = require("./../env.json")["development"];
+}
+
+console.log(config)
+
 var Sequelize = require("sequelize");
-var sequelize = new Sequelize("snowbootstomp", "devmysqladmin", "tXZhwAx!HSFrPz397ejxq8g8U$4SE7B", {
-    "host": "mysql.oomlautontheweb.com",
-    "dialect": "mysql"
-    });
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 var db        = {};
 

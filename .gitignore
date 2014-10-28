@@ -1,5 +1,6 @@
 # Heroku
 .env
+env.json
 
 # Dependency directory
 # Commenting this out is preferred by some people, see
@@ -46,6 +47,6 @@ scss-lint-report.xml
 *.map
 
 # compiled assets
+*.concat.js
 public/styles/*.css
-public/scripts/*.concat.js
 public/scripts/*.min.js

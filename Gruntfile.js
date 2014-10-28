@@ -6,14 +6,18 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		files:{
-			path: {
-				bower: 'bower_components',
-				images: 'public/images',
-				styles: 'public/styles',
-				scripts: 'public/scripts'
-			},
-			sass:{
-				'<%= files.path.styles %>/main.css': '<%= files.path.styles %>/src/main.scss'
+			bower: 'bower_components',
+			images: 'public/images',
+            dev: {
+                styles: 'dev/styles',
+                scripts: 'dev/scripts'
+            },
+            dist: {
+                styles: 'public/styles',
+                scripts: 'public/scripts'
+            },
+            sass:{
+				'<%= files.dist.styles %>/main.css': '<%= files.dev.styles %>/src/main.scss'
 			}
 		},
 
@@ -21,16 +25,24 @@ module.exports = function(grunt) {
             options: {
                 separator: ';'
             },
-            dist: {
+            ng: {
                 src: [
-                	'<%= files.path.bower %>/foundation/js/vendor/modernizr.js',
-                	'<%= files.path.bower %>/foundation/js/vendor/jquery.js',
-                	'<%= files.path.bower %>/foundation/js/vendor/fastclick.js',
-                	'<%= files.path.bower %>/foundation/js/vendor/placeholder.js',
-                	'<%= files.path.bower %>/foundation/js/foundation.min.js',
-                	'<%= files.path.scripts %>/src/social.js'
+                    '<%= files.dev.scripts %>/ng/app.js',
+                    '<%= files.dev.scripts %>/ng/svc.js',
+                    '<%= files.dev.scripts %>/ng/ctrl.js'
                 ],
-                dest: '<%= files.path.scripts %>/main.concat.js'
+                dest: '<%= files.dev.scripts %>/ng.concat.js'
+            },
+            main: {
+                src: [
+                	'<%= files.bower %>/foundation/js/vendor/modernizr.js',
+                	'<%= files.bower %>/foundation/js/vendor/jquery.js',
+                	'<%= files.bower %>/foundation/js/vendor/fastclick.js',
+                	'<%= files.bower %>/foundation/js/vendor/placeholder.js',
+                	'<%= files.bower %>/foundation/js/foundation.min.js',
+                	'<%= files.dev.scripts %>/src/social.js'
+                ],
+                dest: '<%= files.dev.scripts %>/main.concat.js'
             }
         },
 
@@ -38,7 +50,7 @@ module.exports = function(grunt) {
             options: {},
             dist:{
                 files: {
-                    '<%= files.path.scripts %>/main.min.js': ['<%= files.path.scripts %>/main.concat.js']
+                    '<%= files.dist.scripts %>/main.min.js': ['<%= files.dev.scripts %>/ng.concat.js', '<%= files.dev.scripts %>/main.concat.js']
                 }
             }
         },
@@ -51,11 +63,11 @@ module.exports = function(grunt) {
 
 		compass: {
             options: {
-                sassDir: '<%= files.path.styles %>/src',
-                cssDir: '<%= files.path.styles %>',
-                imagesDir: '<%= files.path.images %>',
-                javascriptsDir: '<%= files.path.scripts %>',
-                importPath: '<%= files.path.bower %>',
+                sassDir: '<%= files.dev.styles %>/src',
+                cssDir: '<%= files.dist.styles %>',
+                imagesDir: '<%= files.images %>',
+                javascriptsDir: '<%= files.dist.scripts %>',
+                importPath: '<%= files.bower %>',
                 force: true
             },
             dev: {
@@ -81,7 +93,7 @@ module.exports = function(grunt) {
 
 		scsslint: {
 			allFiles: [
-			  '<%= files.path.styles %>/**/*.scss'
+			  '<%= files.dev.styles %>/**/*.scss'
 			],
 			options: {
 			  reporterOutput: 'scss-lint-report.xml',
@@ -95,11 +107,11 @@ module.exports = function(grunt) {
 				livereload:false
 			},
 			scripts:{
-				files:['public/scripts/src/*.js'],
+				files:['<%= files.dev.scripts %>/src/*.js'],
 				tasks: ['build-js']
 			},
 			styles:{
-				files:['<%= files.path.styles %>/src/**/*'],
+				files:['<%= files.dev.styles %>/src/**/*'],
 				tasks: ['compass:dev']
 			}
 		}

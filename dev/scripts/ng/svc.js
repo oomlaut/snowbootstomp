@@ -1,6 +1,6 @@
-'use strict';
-
 app.factory('svc', function($http){
+
+    'use strict';
 
     function noCache(addr, seed, callback){
         if(arguments.length === 2) {

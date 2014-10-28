@@ -31,7 +31,7 @@ module.exports = function(grunt) {
                     '<%= files.dev.scripts %>/ng/svc.js',
                     '<%= files.dev.scripts %>/ng/ctrl.js'
                 ],
-                dest: '<%= files.dev.scripts %>/ng.concat.js'
+                dest: '<%= files.dist.scripts %>/ng.js'
             },
             main: {
                 src: [
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
             options: {},
             dist:{
                 files: {
-                    '<%= files.dist.scripts %>/main.min.js': ['<%= files.dev.scripts %>/ng.concat.js', '<%= files.dev.scripts %>/main.concat.js']
+                    '<%= files.dist.scripts %>/main.min.js': ['<%= files.dev.scripts %>/main.concat.js']
                 }
             }
         },
@@ -107,11 +107,11 @@ module.exports = function(grunt) {
 				livereload:false
 			},
 			scripts:{
-				files:['<%= files.dev.scripts %>/src/*.js'],
+				files:['<%= files.dev.scripts %>/src/**/*.js'],
 				tasks: ['build-js']
 			},
 			styles:{
-				files:['<%= files.dev.styles %>/src/**/*'],
+				files:['<%= files.dev.styles %>/src/**/*.scss'],
 				tasks: ['compass:dev']
 			}
 		}

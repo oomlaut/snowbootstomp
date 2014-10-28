@@ -49,4 +49,4 @@ scss-lint-report.xml
 # compiled assets
 *.concat.js
 public/styles/*.css
-public/scripts/*.min.js
+public/scripts/*.js

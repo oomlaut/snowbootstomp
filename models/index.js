@@ -5,8 +5,8 @@ var path      = require("path");
 
 var config = {};
 
-console.log("process: ",process.env);
-if(process.env === "production"){
+// console.log("process: ",process.env);
+if(process.env !== undefined && process.env.NODE_ENV === "production"){
     config = {
         "database": process.env.DB_NAME,
         "username": process.env.DB_USER,
@@ -15,10 +15,8 @@ if(process.env === "production"){
         "dialect": process.env.DB_DIALECT
     }
 } else {
-    config = require("./../env.json")["development"];
+    config = require('./../env.json')["development"];
 }
-
-console.log(config)
 
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize(config.database, config.username, config.password, config);

@@ -1,6 +1,7 @@
-'use strict';
 
 app.controller('ctrl', function ctrl ($scope, $sce, svc){
+
+    'use strict';
 
     $scope.locations = [];
     $scope.user = '';

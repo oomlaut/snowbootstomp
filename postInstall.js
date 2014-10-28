@@ -1,7 +1,6 @@
-var process = require('child_process');
 var exec = require('child_process').exec;
 
-if (process.env === undefined){
+if (process.env.NODE_ENV === undefined){
     console.log('development postinstall');
     var bower = exec('bower install', function(error, stdout, stderr){
         if(error !== null) {

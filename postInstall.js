@@ -10,18 +10,19 @@ if (process.env === undefined){
         console.log("bower errors: \n",stderr);
     });
 } else {
-    var env = process.env.NODE_ENV;
+    console.log("Skipping bower install for production due to SASS 3.4.6 bug.");
+    // var env = process.env.NODE_ENV;
 
-    if (env === 'production'){
-        var bower = exec('./node_modules/bower/bin/bower install', function(error, stdout, stderr){
-            if(error !== null) {
-                throw error
-            };
-            console.log("bower install: \n", stdout);
-            console.log("bower errors: \n", stderr);
-        });
-        return;
-    }
-    console.log('no environment for ', env);
-    process.exit(1);
+    // if (env === 'production'){
+    //     var bower = exec('./node_modules/bower/bin/bower install', function(error, stdout, stderr){
+    //         if(error !== null) {
+    //             throw error
+    //         };
+    //         console.log("bower install: \n", stdout);
+    //         console.log("bower errors: \n", stderr);
+    //     });
+    //     return;
+    // }
+    // console.log('no environment for ', env);
+    // process.exit(1);
 }

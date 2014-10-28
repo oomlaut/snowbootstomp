@@ -126,6 +126,6 @@ module.exports = function(grunt) {
 
     // Tasks for use on Heroku
     grunt.registerTask('heroku:development', ['dev']);
-    grunt.registerTask('heroku:production', ['dist']);
+    grunt.registerTask('heroku:production', []);
 
 };

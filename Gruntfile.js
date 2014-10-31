@@ -42,7 +42,6 @@ module.exports = function(grunt) {
                     '<%= files.bower %>/foundation/js/vendor/fastclick.js',
                     '<%= files.bower %>/foundation/js/vendor/placeholder.js',
                     '<%= files.bower %>/foundation/js/foundation.min.js',
-                    '<%= files.bower %>/angular/angular.min.js',
                     '<%= files.bower %>/angular-facebook/lib/angular-facebook.js'
                 ],
                 dest: '<%= files.dev.scripts %>/libs.concat.js'

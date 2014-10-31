@@ -13,7 +13,7 @@
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="stylesheet" href="styles/main.css">
 
-		<!-- script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script -->
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 		<script src="/scripts/libs.min.js"></script>
 		<script src="/scripts/ng.js"></script>
 
@@ -56,67 +56,67 @@
 			</nav>
 		</header>
 
-		<div class="row" id="connect">
-			<div class="login">
+		<section ng-show="facebookReady">
+			<div class="row" id="connect">
+				<div class="columns medium-4">
+					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Connect to Facebook</button>
+				</div>
 				<div class="columns medium-8">
 					<h2>Login to Facebook</h2>
 					<p>We won't collect any personal information from you at all.</p>
 					<p>Really.</p>
 					<p>Logging in will just allow us to link your already public name and profile image to the app for display purposes.</p>
 				</div>
-				<div class="columns medium-4">
-					<i class="fa fa-facebook-square"></i> Facebook button
-				</div>
 			</div>
-			<div class="thanks">
-				<div class="columns small-12">
 
-				</div>
-			</div>
-		</div>
-
-		<div id="check-in">
 			<div class="row">
-				<h2 class="columns large-12">Stops on the Stomp</h2>
+				<div class="columns small-6">
+					<h2 id="fb-welcome"></h2>
+				</div>
 			</div>
 
-			<div class="row" ng-repeat="location in locations">
-				<!-- Google Maps API Key:  -->
-				<div class="streetview columns large-2">
-					<a class="th" href="#"><img class="" src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
+			<div id="check-in">
+				<div class="row">
+					<h2 class="columns large-12">Stops on the Stomp</h2>
 				</div>
 
-				<div class="vcard columns large-3" itemscope itemtype="http://schema.org/LocalBusiness">
-					<h3 class="fn" itemprop="name">{{location.name}}</h3>
-					<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-						<span class="street-address" itemprop="streetAddress">{{location.street}}</span>
-						<span class="locality" itemprop="addressLocality">{{location.city}}</span>,
-						<span class="state" itemprop="addressRegion">{{location.state}}</span>
-						<span class="zip" itemprop="postalCode">{{location.zip}}</span>
-					</address>
-					<a role="button" href="//maps.apple.com/?daddr={{location.street}}%20{{location.city}},%20{{location.state}}%20{{location.zip}}" class="button tiny">Directions</a>
-				</div>
-
-				<div class="columns large-4">
-					<h4>Who's checked in</h4>
-					<ul class="checkins">
-						<li></li>
-					</ul>
-				</div>
-
-				<div class="columns large-3">
-					<div ng-show="!checkedIn">
-						<button class="button large">Check in</button>
+				<div class="row" ng-repeat="location in locations">
+					<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
+					<div class="streetview columns large-2">
+						<a class="th" href="#"><img class="" src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
 					</div>
-					<div ng-hide="checkedIn === true">
-						<h4>Specials</h4>
-						<p>{{location.details}}</p>
-					</div>
-				</div>
 
+					<div class="vcard columns large-3" itemscope itemtype="http://schema.org/LocalBusiness">
+						<h3 class="fn" itemprop="name">{{location.name}}</h3>
+						<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+							<span class="street-address" itemprop="streetAddress">{{location.street}}</span>
+							<span class="locality" itemprop="addressLocality">{{location.city}}</span>,
+							<span class="state" itemprop="addressRegion">{{location.state}}</span>
+							<span class="zip" itemprop="postalCode">{{location.zip}}</span>
+						</address>
+						<a role="button" href="//maps.apple.com/?daddr={{location.street}}%20{{location.city}},%20{{location.state}}%20{{location.zip}}" class="button tiny">Directions</a>
+					</div>
+
+					<div class="columns large-4">
+						<h4>Who's checked in</h4>
+						<ul class="checkins">
+							<li></li>
+						</ul>
+					</div>
+
+					<div class="columns large-3">
+						<div ng-show="!checkedIn">
+							<button class="button small">Check in</button>
+						</div>
+						<div ng-hide="checkedIn === true">
+							<h4>Specials</h4>
+							<p>{{location.details}}</p>
+						</div>
+					</div>
+
+				</div>
 			</div>
-		</div>
-
+		</section>
 		<footer class="row">
 
 		</footer>

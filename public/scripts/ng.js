@@ -76,17 +76,21 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
 
     'use strict';
 
+    // Initialize Google Analytics
     ga.init();
 
     $scope.locations = [];
-    $scope.user = '';
+    var user = {};
 
-    svc.locations().success(function(data){
-        // console.log('locations', data);
-        $scope.locations = data;
+    var getLocations = svc.locations;
 
-        // cross-reference locations with checkins
-    });
+    function updateCheckins(checkins){}
+
+    function checkinHeartbeat(){
+        //window.setInterval();
+    }
+
+
 
     svc.users().success(function(data){
         // console.log('users: ', data);
@@ -98,39 +102,75 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         //
     });
 
+    $scope.$watch(function(){
+        return Facebook.isReady();
+    }, function(isReady){
+        if(isReady){
+            $scope.facebookReady = true;
+            getLocations().success(function(data){
+                $scope.locations = data;
+            });
+            //perform location loads
+        }
+    });
+
     Facebook.getLoginStatus(function(response){
-        console.log(response);
+        console.log("Facebook Login Status: ", response);
         if (response.status === 'connected') {
             // the user is logged in and has authenticated your
             // app, and response.authResponse supplies
             // the user's ID, a valid access token, a signed
             // request, and the time the access token
             // and signed request each expire
-            var uid = response.authResponse.userID;
-            var accessToken = response.authResponse.accessToken;
-            // login.innerHTML = "Connected to Facebook.";
-        } else if (response.status === 'not_authorized') {
-            // the user is logged in to Facebook,
-            // but has not authenticated your app
-            console.log("Logged in to Facebook.");
+            console.log("Logged in, connected.");
+            angular.extend(user, {
+                uid: response.authResponse.userID,
+                accessToken: response.authResponse.accessToken,
+                status: response.status
+            });
+
+        // } else if (response.status === 'not_authorized') {
+        //     // the user is logged in to Facebook,
+        //     // but has not authenticated your app
+        //     console.log("Logged in, not connected.");
+        //     angular.extend(user, {
+        //         status: response.status
+        //     });
         } else {
             // the user isn't logged in to Facebook.
-            var link = document.createElement("a");
-            link.setAttribute("href", "https://www.facebook.com/dialog/oauth?client_id=" + app.id + "&redirect_uri=" + window.location.protocol + app.uri);
-            link.setAttribute("rel", "external");
-            link.className = "btn fb-btn btn-primary btn-larges";
-            link.innerHTML = '<i class="fa fa-facebook-square"></i> Login with Facebook';
-            login.className = login.className + " active";
-            login.appendChild(link);
+            console.log("Not connected.");
+            angular.extend(user, {
+                status: response.status
+            });
         }
     });
 
-    function queryOpenGraph(){}
 
-    function updateCheckins(checkins){}
+    $scope.IntentLogin = function(){
+        if(user.status) {
+            $scope.login();
+        }
+    };
 
-    function checkinHeartbeat(){
-        //window.setInterval();
-    }
+    $scope.login = function() {
+        Facebook.login(function(response) {
+            if (response.status == 'connected') {
+                $scope.logged = true;
+                $scope.me();
+            }
 
+        });
+    };
+
+    $scope.me = function() {
+        Facebook.api('/me', function(response) {
+            /**
+            * Using $scope.$apply since this happens outside angular framework.
+            */
+            $scope.$apply(function() {
+                $scope.user.response = response;
+            });
+
+        });
+    };
 }]);

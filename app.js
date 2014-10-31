@@ -40,6 +40,28 @@ models.sequelize.sync().success(function () {
         });
     });
 
+    /* Facebook Apps */
+    app.get('/terms-of-service', function(request, response){
+        models.CheckIn.findAll().success(function(checkins){
+            response.type('text/html');
+            response.render('terms-of-service.html');
+        });
+    });
+
+    app.get('/privacy', function(request, response){
+        models.CheckIn.findAll().success(function(checkins){
+            response.type('text/html');
+            response.render('privacy.html');
+        });
+    });
+
+    app.get('/support', function(request, response){
+        models.CheckIn.findAll().success(function(checkins){
+            response.type('text/html');
+            response.render('support.html');
+        });
+    });
+
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
         var err = new Error('Not Found');

@@ -86,8 +86,6 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
     // Initialize Google Analytics
     ga.init();
 
-    $scope.processing = false;
-
     $scope.locations = {
         list: {},
         getLocations: function(){
@@ -103,8 +101,9 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             //}
             //svc.getLocation(id).success(function(data){});
         },
-        mergeCheckins: function(){
+        mergeCheckins: function(data){
             //
+            console.log(data);
         }
     };
 
@@ -134,8 +133,6 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
                 throw "$scope.users.connect requires argument `uid`.";
             }
             var context = this;
-
-
             //console.log("Facebook Login Status: ", response);
             if (response.status === 'connected') {
                 // the user is logged in and has authenticated your
@@ -157,6 +154,8 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
                 // });
 
                 context.check($scope.user.uid);
+
+                $scope.checkins.getCheckins(true);
 
             // } else if (response.status === 'not_authorized') {
             //     // the user is logged in to Facebook,
@@ -210,34 +209,35 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
      * Checkins are private, unexposed to the view-model
      */
 
-    var checkins = {
-        list: [],
+    $scope.checkins = {
+        processing: false,
+        pollInterval: null,
+        pollDelay: 2000,
+        pollInc: 0,
+        pollStart: function(){
+            var context = this;
+            context.pollInterval = window.setInterval(function(){
+                if(!context.processing){ //something is taking too long, skip it this time.
+                    context.processing = true;
+                    context.getCheckins();
+                }
+            }, context.pollDelay);
+        },
+        pollStop: function(){
+            window.clearInterval(this.pollInterval);
+        },
         getCheckins: function(startInterval){
             var context = this;
+            console.log('polling: ', context.pollInc++);
             svc.getCheckins().success(function(data){
-                angular.extend(context.list, data);
                 // parse data
                 $scope.locations.mergeCheckins(data);
-                if(startInterval) {
-                    context.poll.start();
-                }
-            });
-            return this;
-        },
-        poll: {
-            interval: null,
-            delay: 2000,
-            start: function(){
-                var context = this;
-                context.interval = window.setInterval(function(){
 
-                }, context.delay);
-            },
-            stop: function(){
-                window.clearInterval(this.interval);
-            }
-        },
-        update: function(){
+                if(arguments.length !== 0 && startInterval) {
+                    context.pollStart();
+                }
+                context.processing = false;
+            });
             return this;
         }
     };
@@ -269,11 +269,14 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
 
     /** #end Facebook Login Methods/Events **/
 
+
+
     /**
      * Event CheckIn Methods
      */
 
     $scope.hasCheckedIn = function(location_id){
+        //$scope.locations.list[location_id].checkins.indexOf($scope.user.uid) > -1
         return false; //($scope.user.uid in $scope.locations.list[location_id].checkins);
     };
 

@@ -8,16 +8,31 @@ var router = express.Router();
 
 models.sequelize.sync().success(function () {
     app.set('port', (process.env.PORT || 5000));
+
     app.use(express.static(__dirname + '/public'));
+
     var server = app.listen(app.get('port'), function() {
       console.log("Node app is running at localhost:" + server.address().port);
     });
 
-
-
     app.get('/', function(request, response) {
       response.render('index.html');
     });
+
+    /* Facebook Apps */
+    app.get('/terms-of-service', function(request, response){
+        response.render('./public/terms-of-service.html');
+    });
+
+    app.get('/privacy', function(request, response){
+        response.render('./public/privacy.html');
+    });
+
+    app.get('/support', function(request, response){
+        response.render('./public/support.html');
+    });
+
+    /* Data Routes */
 
     app.get('/locations', function(request, response){
         models.Location.findAll({order: 'eventOrder ASC'}).success(function(locations){
@@ -38,19 +53,6 @@ models.sequelize.sync().success(function () {
             response.type('application/json');
             response.send(checkins);
         });
-    });
-
-    /* Facebook Apps */
-    app.get('/terms-of-service', function(request, response){
-        response.render('terms-of-service.html');
-    });
-
-    app.get('/privacy', function(request, response){
-        response.render('privacy.html');
-    });
-
-    app.get('/support', function(request, response){
-        response.render('support.html');
     });
 
     // catch 404 and forward to error handler

@@ -15,5 +15,5 @@
 
     HTML5, CSS3
     Normalize.css, Angular, Modernizr
-    bower, grunt, bourbon, SASS
-    PHP
+    bower, grunt, Zurb Foundation, SASS
+    node.js, express, sequelize

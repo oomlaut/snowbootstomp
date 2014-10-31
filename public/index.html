@@ -8,6 +8,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Snowboot Stomp</title>
 		<meta name="description" content="">
+		<meta name="og:title" content="">
+		<meta name="og:site_name" content="Snowboot Stomp">
+		<meta name="og:url" content="http://snowbootstomp.herokuapp.com/">
+		<meta name="og:description" content="">
+		<meta name="og:image" content="http://snowbootstomp.herokuapp.com/"> <!-- 1200x630 -->
+		<meta name="og:app_id" content="748687018544609">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -29,39 +35,35 @@
 			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
 				<ul class="title-area">
 					<li class="name">
-					<h1><a href="#">Snowboot Stomp</a></h1>
+						<h1><a href="#">Snowboot Stomp</a></h1>
 					</li>
 					<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
 					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 				</ul>
 
-				<section class="top-bar-section">
+				<!-- <section class="top-bar-section">
 
-					<!-- Left Nav Section -->
+					< !-- Left Nav Section -- >
 					<ul class="left">
 						<li><a href="#connect">Connect with Facebook</a></li>
 						<li><a href="#check-in">Check-in to Unlock Specials</a></li>
 					</ul>
 					<ul class="right">
 						<li>
-							<div
-							  class="fb-like"
-							  data-share="true"
-							  data-width="450"
-							  data-show-faces="true">
-							</div>
 						</li>
 					</ul>
-				</section>
+				</section> -->
+
 			</nav>
 		</header>
 
 		<section ng-show="facebookReady">
-			<div class="row" id="connect">
-				<div class="columns medium-4">
+			<div class="row" ng-hide="user.connected">
+
+				<div class="columns medium-3">
 					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Connect to Facebook</button>
 				</div>
-				<div class="columns medium-8">
+				<div class="columns medium-9">
 					<h2>Login to Facebook</h2>
 					<p>We won't collect any personal information from you at all.</p>
 					<p>Really.</p>
@@ -69,9 +71,22 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="columns small-6">
-					<h2 id="fb-welcome"></h2>
+			<div class="row" ng-show="user.connected">
+				<div class="columns medium-3">
+					<img width="50" height="50" class="left" src="{{users.list[user.uid].picture.url}}" alt="User photo for {{}}">
+					{{users.list[user.uid].name}}
+				</div>
+				<div class="columns small-9">
+					<h2>Thanks for connecting.</h2>
+					<div
+					  class="fb-like"
+					  data-href="http://snowbootstomp.herokuapp.com/"
+					  data-share="false"
+					  data-share="true"
+					  data-width="320"
+					  data-show-faces="true"
+					  data-colorscheme="dark">
+					</div>
 				</div>
 			</div>
 
@@ -80,7 +95,7 @@
 					<h2 class="columns large-12">Stops on the Stomp</h2>
 				</div>
 
-				<div class="row" ng-repeat="location in locations">
+				<div class="row" ng-repeat="location in locations.list">
 					<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
 					<div class="streetview columns large-2">
 						<a class="th" href="#"><img class="" src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
@@ -98,17 +113,17 @@
 					</div>
 
 					<div class="columns large-4">
-						<h4>Who's checked in</h4>
-						<ul class="checkins">
-							<li></li>
+						<h4>Check-ins</h4>
+						<ul class="checkins" ng-if="location.checkins">
+							<li ng-repeat="checkin in location.checkins"><img src="users.list[checkin].picture"</li>
 						</ul>
 					</div>
 
-					<div class="columns large-3">
-						<div ng-show="!checkedIn">
-							<button class="button small">Check in</button>
+					<div class="columns large-3" ng-if="user.connected">
+						<div ng-hide="hasCheckedIn(location.id)">
+							<button class="button small" ng-disabled="processing">Check in</button>
 						</div>
-						<div ng-hide="checkedIn === true">
+						<div ng-show="hasCheckedIn(location.id)">
 							<h4>Specials</h4>
 							<p>{{location.details}}</p>
 						</div>
@@ -117,8 +132,26 @@
 				</div>
 			</div>
 		</section>
-		<footer class="row">
 
+		<section ng-hide="facebookReady">
+			<div class="row">
+				<h2>Connecting&hellip;</h2>
+				<p>Please wait while we configure the connection to Facebook.</p>
+			</div>
+		</section>
+
+		<footer class="row">
+			<div class="columns medium-3 medium-push-9">
+				<p><small><span class="copyright">&copy; 2014-2015</span> <a href="http://paulgueller.com">Paul Gueller</a></small></p>
+			</div>
+			<nav class="columns medium-9 medium-pull-3">
+				<ul class="inline-list">
+					<li><a href="/">Home</a></li>
+					<li><a href="/privacy.hmtl">Privacy Policy</a></li>
+					<li><a href="/support.hmtl">Support</a></li>
+					<li><a href="/terms-of-service.hmtl">Terms of Service</a></li>
+				</ul>
+			</nav>
 		</footer>
 
 	</body>

@@ -4,7 +4,7 @@ var models = require("./models");
 
 var express = require('express');
 var app = express();
-var router = express.Router();
+// var router = express.Router();
 
 models.sequelize.sync().success(function () {
     app.set('port', (process.env.PORT || 5000));
@@ -19,18 +19,6 @@ models.sequelize.sync().success(function () {
       response.render('index.html');
     });
 
-    /* Facebook Apps */
-    app.get('/terms-of-service', function(request, response){
-        response.render('./public/terms-of-service.html');
-    });
-
-    app.get('/privacy', function(request, response){
-        response.render('./public/privacy.html');
-    });
-
-    app.get('/support', function(request, response){
-        response.render('./public/support.html');
-    });
 
     /* Data Routes */
 
@@ -41,18 +29,24 @@ models.sequelize.sync().success(function () {
         });
     });
 
-    app.get('/users', function(request, response){
-        models.User.findAll().success(function(users){
-            response.type('application/json');
-            response.send(users);
-        });
-    });
+    // app.get('/users', function(request, response){
+    //     models.User.findAll().success(function(users){
+    //         response.type('application/json');
+    //         response.send(users);
+    //     });
+    // });
 
     app.get('/checkins', function(request, response){
         models.CheckIn.findAll().success(function(checkins){
             response.type('application/json');
             response.send(checkins);
         });
+    });
+
+    app.post('/checkins', function(request, response){
+        request.accepts('text/plain');
+        var body = request.body;
+        // models.Checkin.
     });
 
     // catch 404 and forward to error handler

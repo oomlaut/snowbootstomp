@@ -12,24 +12,31 @@ app.factory('svc', function($http){
     }
 
 	return {
-        locations: function(){
+        getLocations: function(){
             return $http({
                 method: 'GET',
                 url: noCache('/locations')
             });
         },
-        users: function(){
-            return $http({
-                method: 'GET',
-                url: noCache('/users')
-            });
-        },
-        checkins: function(){
+        // getUsers: function(){
+        //     return $http({
+        //         method: 'GET',
+        //         url: noCache('/users')
+        //     });
+        // },
+        getCheckins: function(){
             return $http({
                 method: 'GET',
                 url: noCache('/checkins')
             });
+        },
+        postCheckin: function(){
+            return $http({
+                method: 'post',
+                url: noCache('/checkin')
+            });
         }
+
     };
 });
 

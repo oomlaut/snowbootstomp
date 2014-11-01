@@ -30,8 +30,8 @@ app.config(['FacebookProvider', 'fb_app_id', function(FacebookProvider, fb_app_i
 	return {
         getLocations: function(){
             return $http({
-                method: 'GET',
-                url: noCache('/locations')
+                'method': 'GET',
+                'url': noCache('/locations')
             });
         },
         // getUsers: function(){
@@ -42,14 +42,19 @@ app.config(['FacebookProvider', 'fb_app_id', function(FacebookProvider, fb_app_i
         // },
         getCheckins: function(){
             return $http({
-                method: 'GET',
-                url: noCache('/checkins')
+                'method': 'GET',
+                'url': noCache('/checkins')
             });
         },
-        postCheckin: function(){
+        postCheckin: function(data){
             return $http({
-                method: 'post',
-                url: noCache('/checkin')
+                'method': 'POST',
+                'url': noCache('/data/store/'),
+                'data': data,
+                'headers': {
+                    'Content-Type': 'application/json'
+                },
+                'responseType': 'string'
             });
         }
 

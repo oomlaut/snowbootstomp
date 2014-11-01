@@ -179,7 +179,7 @@ app.controller('ctrl', ['$scope', '$sce', 'svc', 'ga', 'Facebook', function ctrl
     });
 
     $scope.IntentLogin = function(){
-        if($scope.user.status) {
+        if($scope.user.status !== true) {
             Facebook.login(function(response) {
                 $scope.users.connect(response);
             });

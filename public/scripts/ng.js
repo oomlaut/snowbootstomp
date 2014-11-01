@@ -265,7 +265,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
     });
 
     $scope.IntentLogin = function(){
-        if(Sscope.user.status) {
+        if($scope.user.status) {
             Facebook.login(function(response) {
                 $scope.users.connect(response);
             });

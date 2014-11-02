@@ -14,15 +14,18 @@ app.controller('ctrl', ['$scope', '$sce', 'svc', 'ga', 'Facebook', function ctrl
             });
             return this;
         },
-        getLocation: function(id){
-            //if(arguments.length === 0){
-            //    throw "$scope.locations.getLocation requires argument `id`.";
-            //}
-            //svc.getLocation(id).success(function(data){});
-        },
-        mergeCheckins: function(data){
+        // getLocation: function(id){
+        //     if(arguments.length === 0){
+        //        throw "$scope.locations.getLocation requires argument `id`.";
+        //     }
+        //     svc.getLocation(id).success(function(data){});
+        // },
+        mergeCheckins: function(checkins){
             //
             console.log(data);
+            for (var checkin in checkins){
+
+            }
         }
     };
 
@@ -143,11 +146,12 @@ app.controller('ctrl', ['$scope', '$sce', 'svc', 'ga', 'Facebook', function ctrl
             }, context.pollDelay);
         },
         pollStop: function(){
+            this.processing = false;
             window.clearInterval(this.pollInterval);
         },
         getCheckins: function(startInterval){
             var context = this;
-            console.log('polling: ', context.pollInc++);
+            //console.log('polling: ', context.pollInc++);
             svc.getCheckins().success(function(data){
                 // parse data
                 $scope.locations.mergeCheckins(data);
@@ -203,6 +207,11 @@ app.controller('ctrl', ['$scope', '$sce', 'svc', 'ga', 'Facebook', function ctrl
         if(arguments.length === 0){
             throw "$scope.checkin requires argument `location_id`";
         }
+        $scope.checkins.pollStop();
+        svc.postCheckin({
+            'uid': $scope.user.uid,
+            'location_id':
+        }).success(function(){})
         return false;
     };
 

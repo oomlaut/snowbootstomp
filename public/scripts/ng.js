@@ -7,7 +7,7 @@ app.constant('fb_app_id', '748687018544609');
 app.config(['FacebookProvider', 'fb_app_id', function(FacebookProvider, fb_app_id){
     FacebookProvider.init({
         appId      : fb_app_id, // App ID
-        channelUrl : "//" + window.location.hostname + '/channel.html', // Channel File
+        // channelUrl : "//" + window.location.hostname + '/channel.html', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
         xfbml      : true, // parse XFBML
@@ -100,15 +100,18 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             });
             return this;
         },
-        getLocation: function(id){
-            //if(arguments.length === 0){
-            //    throw "$scope.locations.getLocation requires argument `id`.";
-            //}
-            //svc.getLocation(id).success(function(data){});
-        },
-        mergeCheckins: function(data){
+        // getLocation: function(id){
+        //     if(arguments.length === 0){
+        //        throw "$scope.locations.getLocation requires argument `id`.";
+        //     }
+        //     svc.getLocation(id).success(function(data){});
+        // },
+        mergeCheckins: function(checkins){
             //
             console.log(data);
+            for (var checkin in checkins){
+
+            }
         }
     };
 
@@ -229,11 +232,12 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             }, context.pollDelay);
         },
         pollStop: function(){
+            this.processing = false;
             window.clearInterval(this.pollInterval);
         },
         getCheckins: function(startInterval){
             var context = this;
-            console.log('polling: ', context.pollInc++);
+            //console.log('polling: ', context.pollInc++);
             svc.getCheckins().success(function(data){
                 // parse data
                 $scope.locations.mergeCheckins(data);
@@ -289,6 +293,11 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         if(arguments.length === 0){
             throw "$scope.checkin requires argument `location_id`";
         }
+        $scope.checkins.pollStop();
+        svc.postCheckin({
+            'uid': $scope.user.uid,
+            'location_id':
+        }).success(function(){})
         return false;
     };
 

@@ -29,12 +29,12 @@ models.sequelize.sync().success(function () {
         });
     });
 
-    // app.get('/users', function(request, response){
-    //     models.User.findAll().success(function(users){
-    //         response.type('application/json');
-    //         response.send(users);
-    //     });
-    // });
+    app.get('/location', function(request, response){
+        models.Location.find({'where': { id: request.query.id }}).success(function(location){
+            response.type('application/json');
+            response.send(location);
+        });
+    });
 
     app.get('/checkins', function(request, response){
         models.CheckIn.findAll().success(function(checkins){
@@ -43,10 +43,22 @@ models.sequelize.sync().success(function () {
         });
     });
 
-    app.post('/checkins', function(request, response){
-        request.accepts('text/plain');
-        var body = request.body;
-        // models.Checkin.
+    app.post('/checkin', function(request, response){
+        console.log(request.body);
+        request.accepts('application/json');
+        var checkin = CheckIn.build({
+            uid: request.body.uid,
+            LocationId: request.body.location_id
+        });
+        checkin.save().complete(function(err){
+            if(err){
+                console.log(err);
+            }
+        });
+    });
+
+    app.get('/reset', function(request, response){
+        //
     });
 
     // catch 404 and forward to error handler

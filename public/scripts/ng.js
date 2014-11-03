@@ -107,11 +107,32 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         //     }
         //     svc.getLocation(id).success(function(data){});
         // },
+        getLocationPosition: function(key, value){
+            for(var index in $scope.locationlist){
+                if($scope.locationlist[index][key] === value){
+                    return index;
+                }
+            }
+            return -1;
+        },
         mergeCheckins: function(checkins){
             //
             console.log(data);
+            var context = this;
             for (var checkin in checkins){
-
+                var location_id = checkin.location_id;
+                var uid = checkin.uid;
+                var position = context.getLocationPosition('id', 'location_id');
+                if(position > -1){
+                    if(typeof $scope.locationlist[position].checkins === undefined){
+                        $scope.locationlist[position].checkins = [];
+                    }
+                    if($scope.locationlist[position].checkins.indexOf(uid) === -1){
+                        $scope.locationlist[position].checkins.push(uid);
+                    }
+                } else {
+                    throw "No location avaolabiel at posootion " + location_id;
+                }
             }
         }
     };

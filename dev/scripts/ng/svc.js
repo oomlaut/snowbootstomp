@@ -3,12 +3,12 @@ app.factory('svc', function($http){
     'use strict';
 
     function noCache(addr, seed, callback){
-        if(arguments.length === 2) {
+        if(arguments.length < 2 || seed == null) {
             seed = Math.ceil((Math.random() * 1000) * (Math.random() * 1000));
         }
-        var now = new Date().now;
+        var now = Date.now();
         var separator = (addr.indexOf('?') === -1 ) ? '?' : '&';
-        return addr + '?nocache=' + now + '' + seed;
+        return addr + separator + 'nocache=' + now + '' + seed;
     }
 
 	return {
@@ -18,12 +18,6 @@ app.factory('svc', function($http){
                 'url': noCache('/locations')
             });
         },
-        // getUsers: function(){
-        //     return $http({
-        //         method: 'GET',
-        //         url: noCache('/users')
-        //     });
-        // },
         getCheckins: function(){
             return $http({
                 'method': 'GET',
@@ -33,7 +27,7 @@ app.factory('svc', function($http){
         postCheckin: function(data){
             return $http({
                 'method': 'POST',
-                'url': noCache('/data/store/'),
+                'url': noCache('/checkin'),
                 'data': data,
                 'headers': {
                     'Content-Type': 'application/json'

@@ -2,8 +2,10 @@
 
 var models = require("./models");
 
+var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+app.use(bodyParser.json());
 // var router = express.Router();
 
 models.sequelize.sync().success(function () {
@@ -15,8 +17,11 @@ models.sequelize.sync().success(function () {
       console.log("Node app is running at localhost:" + server.address().port);
     });
 
+    function showHome(response){
+    }
+
     app.get('/', function(request, response) {
-      response.render('index.html');
+        response.render('index.html');
     });
 
 
@@ -44,21 +49,17 @@ models.sequelize.sync().success(function () {
     });
 
     app.post('/checkin', function(request, response){
-        console.log(request.body);
         request.accepts('application/json');
-        var checkin = CheckIn.build({
-            uid: request.body.uid,
-            LocationId: request.body.location_id
-        });
-        checkin.save().complete(function(err){
-            if(err){
-                console.log(err);
-            }
-        });
-    });
 
-    app.get('/reset', function(request, response){
-        //
+        // TODO: first check the database to see if the user already has a checkin at this location. Deny.
+        var checkin = models.CheckIn.build({
+            'uid': request.body.uid,
+            'LocationId': request.body.LocationId
+        });
+        checkin.save().success(function(msg){
+            response.type('text/plain');
+            response.send(msg);
+        });
     });
 
     // catch 404 and forward to error handler

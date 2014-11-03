@@ -77,7 +77,7 @@ module.exports = function(grunt) {
                 cssDir: '<%= files.dist.styles %>',
                 imagesDir: '<%= files.dist.images %>',
                 javascriptsDir: '<%= files.dist.scripts %>',
-                importPath: '<%= files.bower %>',
+                importPath: ['<%= files.bower %>/foundation/scss/', '<%= files.bower %>/font-awesome/scss/'],
                 force: true
             },
             dev: {

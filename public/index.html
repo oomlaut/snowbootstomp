@@ -57,6 +57,13 @@
 			</nav>
 		</header>
 
+		<section ng-hide="facebookReady">
+			<div class="row">
+				<h2>Connecting&hellip;</h2>
+				<p>Please wait while we configure the connection to Facebook.</p>
+			</div>
+		</section>
+
 		<section ng-show="facebookReady">
 			<div class="row" ng-hide="user.connected">
 
@@ -64,8 +71,8 @@
 					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
 				</div>
 				<div class="columns medium-9">
-					<h2>Login to Facebook</h2>
-					<p>We won't collect any personal information from you at all.</p>
+					<h2>Use Facebook to Log In.</h2>
+					<p>Instead of creating an account We won't collect any personal information from you at all.</p>
 					<p>Really.</p>
 					<p>Logging in will just allow us to link your already public name and profile image to the app for display purposes.</p>
 				</div>
@@ -115,28 +122,21 @@
 					<div class="columns large-4">
 						<h4>Check-ins</h4>
 						<ul class="checkins" ng-if="location.checkins">
-							<li ng-repeat="checkin in location.checkins"><img ng-src="userlist[checkin].picture"</li>
+							<li ng-repeat="checkin in location.checkins"><img ng-src="{{userlist[checkin].picture.url}}" alt=""></li>
 						</ul>
 					</div>
 
 					<div class="columns large-3" ng-if="user.connected">
-						<div ng-hide="hasCheckedIn(location.id)">
-							<button class="button small" ng-disabled="processing" ng-click="checkin(location.id)">Check in</button>
+						<div ng-hide="hasCheckedIn(location)">
+							<button class="button small" ng-disabled="isProcessing()" ng-click="checkin(location.id)">Check in</button>
 						</div>
-						<div ng-show="hasCheckedIn(location.id)">
+						<div ng-show="hasCheckedIn(location)">
 							<h4>Specials</h4>
 							<p>{{location.details}}</p>
 						</div>
 					</div>
 
 				</div>
-			</div>
-		</section>
-
-		<section ng-hide="facebookReady">
-			<div class="row">
-				<h2>Connecting&hellip;</h2>
-				<p>Please wait while we configure the connection to Facebook.</p>
 			</div>
 		</section>
 

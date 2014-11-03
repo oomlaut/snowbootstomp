@@ -1,0 +1,28 @@
+
+$golden-ratio: 1.61803398875;
+
+@mixin font-base($fontname, $filename, $fontsdir: '/fonts'){
+    @font-face {
+        font-family: '#{$fontname}';
+        src: url('#{$fontsdir}/#{$filename}-webfont.eot');
+        src: url('#{$fontsdir}/#{$filename}-webfont.eot?#iefix') format('embedded-opentype'),
+             url('#{$fontsdir}/#{$filename}-webfont.woff2') format('woff2'),
+             url('#{$fontsdir}/#{$filename}-webfont.woff') format('woff'),
+             url('#{$fontsdir}/#{$filename}-webfont.ttf') format('truetype'),
+             url('#{$fontsdir}/#{$filename}-webfont.svg##{$filename}regular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+@include font-base('For Winter', 'for_winter');
+
+@include font-base('Krystal', 'krystal');
+
+@include font-base('Abril Fatface', 'abrilfatface');
+
+// Load Font Awesome icons from Bower packages
+@import "font-awesome";
+
+// Favorite Google Fonts: Fira Sans, Cabin,
+@import url("//fonts.googleapis.com/css?family=News+Cycle:400,700");

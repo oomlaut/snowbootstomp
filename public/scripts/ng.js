@@ -91,12 +91,13 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
     // Initialize Google Analytics
     ga.init();
 
-    $scope.locations = {
-        list: {},
+    $scope.locationlist = {};
+    $scope.userlist = {};
+
+    var locations = {
         getLocations: function(){
-            var context = this;
             svc.getLocations().success(function(data){
-                angular.extend(context.list, data);
+                angular.extend($scope.locationlist, data);
             });
             return this;
         },
@@ -119,8 +120,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         connected: null
     };
 
-    $scope.users = {
-        list: {},
+    var users = {
         // getUsers: function(){
         //     var context = this;
         //     svc.getUsers().success(function(data){
@@ -163,7 +163,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
 
                 context.check($scope.user.uid);
 
-                $scope.checkins.getCheckins(true);
+                checkins.getCheckins(true);
 
             // } else if (response.status === 'not_authorized') {
             //     // the user is logged in to Facebook,
@@ -184,7 +184,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
                 throw "$scope.users.check requires argument `uid`.";
             }
             var context = this;
-            if(!(uid in this.list)){
+            if(!(uid in $scope.userlist)){
                 context.addUser(uid);
                 return false;
             }
@@ -196,7 +196,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             }
             var context = this;
             Facebook.api('/' + uid, function(response){
-                context.list[uid] = response;
+                $scope.userlist[uid] = response;
                 context.addUserPicture(uid);
             });
             return this;
@@ -207,7 +207,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             }
             var context = this;
             Facebook.api('/' + uid + '/picture', function(response){
-               context.list[uid].picture = response.data;
+               $scope.userlist[uid].picture = response.data;
             });
             return this;
         }
@@ -217,7 +217,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
      * Checkins are private, unexposed to the view-model
      */
 
-    $scope.checkins = {
+    var checkins = {
         processing: false,
         pollInterval: null,
         pollDelay: 2000,
@@ -240,7 +240,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
             //console.log('polling: ', context.pollInc++);
             svc.getCheckins().success(function(data){
                 // parse data
-                $scope.locations.mergeCheckins(data);
+                locations.mergeCheckins(data);
 
                 if(arguments.length !== 0 && startInterval) {
                     context.pollStart();
@@ -260,18 +260,18 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
     }, function(isReady){
         if(isReady){
             $scope.facebookReady = true;
-            $scope.locations.getLocations();
+            locations.getLocations();
         }
     });
 
     Facebook.getLoginStatus(function(response){
-        $scope.users.connect(response);
+        users.connect(response);
     });
 
     $scope.IntentLogin = function(){
         if($scope.user.status !== true) {
             Facebook.login(function(response) {
-                $scope.users.connect(response);
+                users.connect(response);
             });
         }
     };
@@ -296,7 +296,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         $scope.checkins.pollStop();
         svc.postCheckin({
             'uid': $scope.user.uid,
-            'location_id':
+            'location_id': location_id
         }).success(function(){})
         return false;
     };

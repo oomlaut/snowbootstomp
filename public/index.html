@@ -61,7 +61,7 @@
 			<div class="row" ng-hide="user.connected">
 
 				<div class="columns medium-3">
-					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Connect to Facebook</button>
+					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
 				</div>
 				<div class="columns medium-9">
 					<h2>Login to Facebook</h2>
@@ -73,8 +73,8 @@
 
 			<div class="row" ng-show="user.connected">
 				<div class="columns medium-3">
-					<img width="50" height="50" class="left" ng-src="{{users.list[user.uid].picture.url}}" alt="User photo for {{}}">
-					{{users.list[user.uid].name}}
+					<img width="50" height="50" class="left" ng-src="{{userlist[user.uid].picture.url}}" alt="">
+					{{userlist[user.uid].name}}
 				</div>
 				<div class="columns small-9">
 					<h2>Thanks for connecting.</h2>
@@ -95,7 +95,7 @@
 					<h2 class="columns large-12">Stops on the Stomp</h2>
 				</div>
 
-				<div class="row" ng-repeat="location in locations.list">
+				<div class="row" ng-repeat="location in locationlist">
 					<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
 					<div class="streetview columns large-2">
 						<a class="th" href="#"><img class="" ng-src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
@@ -115,13 +115,13 @@
 					<div class="columns large-4">
 						<h4>Check-ins</h4>
 						<ul class="checkins" ng-if="location.checkins">
-							<li ng-repeat="checkin in location.checkins"><img ng-src="users.list[checkin].picture"</li>
+							<li ng-repeat="checkin in location.checkins"><img ng-src="userlist[checkin].picture"</li>
 						</ul>
 					</div>
 
 					<div class="columns large-3" ng-if="user.connected">
 						<div ng-hide="hasCheckedIn(location.id)">
-							<button class="button small" ng-disabled="processing">Check in</button>
+							<button class="button small" ng-disabled="processing" ng-click="checkin(location.id)">Check in</button>
 						</div>
 						<div ng-show="hasCheckedIn(location.id)">
 							<h4>Specials</h4>

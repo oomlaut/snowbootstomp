@@ -138,7 +138,6 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
                 // the user's ID, a valid access token, a signed
                 // request, and the time the access token
                 // and signed request each expire
-                console.log('response', response);
                 angular.extend($scope.user, {
                     connected: true,
                     uid: response.authResponse.userID,
@@ -209,14 +208,16 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         pollStart: function(){
             var context = this;
             context.pollInterval = window.setInterval(function(){
-                if(!context.processing){ //something is taking too long, skip it this time.
-                    context.processing = true;
-                    context.getCheckins();
-                }
+                $scope.$apply(function(){
+                    if(!context.processing){ //something is taking too long, skip it this time.
+                        context.processing = true;
+                        context.getCheckins();
+                    }
+                });
             }, context.pollDelay);
         },
         pollStop: function(){
-            console.log('stopping polling...');
+            // console.log('stopping polling...');
             this.processing = false;
             window.clearInterval(this.pollInterval);
         },
@@ -225,7 +226,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
                 startInterval = false;
             }
             var context = this;
-            console.log('polling: ', context.pollInc++);
+            // console.log('polling: ', context.pollInc++);
             svc.getCheckins().success(function(data){
                 // parse data
                 mergeCheckins(data);

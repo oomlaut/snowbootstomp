@@ -128,10 +128,12 @@ app.controller('ctrl', ['$scope', '$sce', 'svc', 'ga', 'Facebook', function ctrl
         pollStart: function(){
             var context = this;
             context.pollInterval = window.setInterval(function(){
-                if(!context.processing){ //something is taking too long, skip it this time.
-                    context.processing = true;
-                    context.getCheckins();
-                }
+                $scope.$apply(function(){
+                    if(!context.processing){ //something is taking too long, skip it this time.
+                        context.processing = true;
+                        context.getCheckins();
+                    }
+                });
             }, context.pollDelay);
         },
         pollStop: function(){

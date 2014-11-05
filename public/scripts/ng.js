@@ -207,6 +207,7 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
         pollInc: 0,
         pollStart: function(){
             var context = this;
+            // TODO: research https://docs.angularjs.org/api/ng/service/$interval
             context.pollInterval = window.setInterval(function(){
                 $scope.$apply(function(){
                     if(!context.processing){ //something is taking too long, skip it this time.

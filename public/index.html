@@ -122,13 +122,13 @@
 					<div class="columns large-4">
 						<h4>Check-ins</h4>
 						<ul class="checkins" ng-if="location.checkins">
-							<li ng-repeat="checkin in location.checkins"><img ng-src="{{userlist[checkin].picture.url}}" alt=""></li>
+							<li ng-repeat="checkin in location.checkins track by $index"><img ng-src="{{userlist[checkin].picture.url}}" alt=""></li>
 						</ul>
 					</div>
 
 					<div class="columns large-3" ng-if="user.connected">
 						<div ng-hide="hasCheckedIn(location)">
-							<button class="button small" ng-disabled="isProcessing()" ng-click="checkin(location.id)">Check in</button>
+							<button class="button small" ng-click="checkin(location.id)">Check in</button>
 						</div>
 						<div ng-show="hasCheckedIn(location)">
 							<h4>Specials</h4>

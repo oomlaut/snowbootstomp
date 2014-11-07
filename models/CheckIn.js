@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   var CheckIn = sequelize.define("CheckIn", {
-    uid: DataTypes.BIGINT
+    uid: DataTypes.STRING(20)
   }, {
     classMethods: {
       associate: function(models) {

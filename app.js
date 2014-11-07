@@ -48,6 +48,16 @@ models.sequelize.sync().success(function () {
         });
     });
 
+    // app.get('/reset', function(request, response){
+    //     models.CheckIn.drop().success(function(){
+    //         models.CheckIn.sync(function(){
+    //             // console.log('reset table `CheckIn`');
+    //             response.type('text/plain');
+    //             response.send('Success.');
+    //         });
+    //     });
+    // });
+
     app.post('/checkin', function(request, response){
         request.accepts('application/json');
 

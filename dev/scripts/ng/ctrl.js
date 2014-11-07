@@ -8,6 +8,8 @@ app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function
     $scope.locationlist = [];
     $scope.userlist = {};
 
+    window.userlist = $scope.userlist;
+
     $scope.user = {
         connected: null // represents a nullable type. take that.
     };

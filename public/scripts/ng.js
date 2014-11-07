@@ -7,7 +7,7 @@ app.constant('fb_app_id', '748687018544609');
 app.config(['FacebookProvider', 'fb_app_id', function(FacebookProvider, fb_app_id){
     FacebookProvider.init({
         appId      : fb_app_id, // App ID
-        // channelUrl : "//" + window.location.hostname + '/channel.html', // Channel File
+        channelUrl : "//" + window.location.hostname + '/channel.html', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
         xfbml      : true, // parse XFBML
@@ -87,6 +87,8 @@ app.factory('ga', ['ga_tracking_id', function(ga_tracking_id){
 
     $scope.locationlist = [];
     $scope.userlist = {};
+
+    window.userlist = $scope.userlist;
 
     $scope.user = {
         connected: null // represents a nullable type. take that.

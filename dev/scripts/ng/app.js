@@ -1,6 +1,7 @@
-var app = angular.module('SnowBootStomp', ['facebook']);
+var app = angular.module('SnowBootStomp', ['facebook', 'mm.foundation']);
 
 app.constant('ga_tracking_id', 'UA-1575455-12');
+app.constant('google_maps_key', 'AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo');
 app.constant('fb_app_id', '748687018544609');
 
 // https://github.com/Ciul/angular-facebook

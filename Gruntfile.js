@@ -37,12 +37,15 @@ module.exports = function(grunt) {
             },
             libs: {
                 src: [
-                    '<%= files.bower %>/foundation/js/vendor/modernizr.js',
-                    '<%= files.bower %>/foundation/js/vendor/jquery.js',
-                    '<%= files.bower %>/foundation/js/vendor/fastclick.js',
-                    '<%= files.bower %>/foundation/js/vendor/placeholder.js',
-                    '<%= files.bower %>/foundation/js/foundation.min.js',
-                    '<%= files.bower %>/angular-facebook/lib/angular-facebook.js'
+                    '<%= files.bower %>/foundation/js/vendor/modernizr.js'
+                    // ,'<%= files.bower %>/foundation/js/vendor/jquery.js'
+                    ,'<%= files.bower %>/foundation/js/vendor/fastclick.js'
+                    //,'<%= files.bower %>/foundation/js/vendor/placeholder.js'
+                    // ,'<%= files.bower %>/foundation/js/foundation.min.js'
+                    ,'<%= files.bower %>/angular/angular.min.js'
+                    ,'<%= files.bower %>/angular-foundation/mm-foundation.min.js'
+                    ,'<%= files.bower %>/angular-foundation/mm-foundation-tpls.min.js'
+                    ,'<%= files.bower %>/angular-facebook/lib/angular-facebook.js'
                 ],
                 dest: '<%= files.dev.scripts %>/libs.concat.js'
             },
@@ -52,15 +55,22 @@ module.exports = function(grunt) {
                     '<%= files.dev.scripts %>/ng/svc.js',
                     '<%= files.dev.scripts %>/ng/ctrl.js'
                 ],
-                dest: '<%= files.dist.scripts %>/ng.js'
-            },
+                dest: '<%= files.dev.scripts %>/ng.concat.js'
+            }
         },
 
 		uglify: {
-            options: {},
-            dist:{
+            options: {
+                preserveComments: false
+                ,mangle: false
+                ,sourceMap: true
+                ,sourceMapName: '<%= files.dist.scripts %>/app.map'
+                // ,drop_console: true
+                // ,beautify: true
+            },
+            app:{
                 files: {
-                    '<%= files.dist.scripts %>/libs.min.js': ['<%= files.dev.scripts %>/libs.concat.js']
+                    '<%= files.dist.scripts %>/app.min.js': ['<%= files.dev.scripts %>/libs.concat.js', '<%= files.dev.scripts %>/ng.concat.js']
                 }
             }
         },
@@ -116,9 +126,9 @@ module.exports = function(grunt) {
 				debounceDelay:1000,
 				livereload:false
 			},
-            scripts:{
+            app:{
                 files:['<%= files.dev.scripts %>/ng/*.js'],
-                tasks: ['build-ng']
+                tasks: ['concat:ng', 'uglify:app']
             },
 			styles:{
 				files:['<%= files.dev.styles %>/src/**/*.scss'],
@@ -128,9 +138,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('default', ['dev', 'watch']);
-	grunt.registerTask('build-libs', ['concat:libs', 'uglify']);
-    grunt.registerTask('build-ng', ['concat:ng']);
-    grunt.registerTask('build-js', ['build-libs', 'build-ng'])
+    grunt.registerTask('build-js', ['concat', 'uglify']);
 	grunt.registerTask('dev', ['build-js', 'compass:dev', 'copy:fonts']);
 	grunt.registerTask('dist', ['build-js', 'compass:dist', 'copy:fonts']);
 

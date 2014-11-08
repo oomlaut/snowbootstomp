@@ -1,10 +1,19 @@
-app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function ctrl ($scope, $interval, svc, ga, Facebook){
+app.controller('ctrl', [
+               '$scope',
+               '$interval',
+               'svc',
+               'ga',
+               'google_maps_key',
+               'Facebook',
+               '$modal',
+   function ctrl ($scope, $interval, svc, ga, google_maps_key, Facebook, $modal){
 
     'use strict';
 
     // Initialize Google Analytics
     ga.init();
 
+    $scope.maps_key = google_maps_key;
     $scope.locationlist = [];
     $scope.userlist = {};
 
@@ -221,4 +230,34 @@ app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function
 
     /** #end CheckIn Methods **/
 
+    /**
+     * Foundation Angular Methods
+     */
+    window.user = $scope.user;
+
+    // http://pineconellc.github.io/angular-foundation/
+    $scope.openModal = function(string){
+        var modalInstance = $modal.open({
+            templateUrl: 'myModalContent.html',
+            controller: modalInstanceCtrl,
+            resolve: {
+                imageurl: function () {
+                   return string;
+                }
+            }
+        });
+    };
+
+    var modalInstanceCtrl = function ($scope, $modalInstance, imageurl) {
+
+      $scope.imageurl = imageurl;
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    };
+    /** end Foundation Angular **/
+
 }]);
+
+

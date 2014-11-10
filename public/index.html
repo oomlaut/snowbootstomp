@@ -12,7 +12,7 @@
 		<meta name="og:site_name" content="Snowboot Stomp">
 		<meta name="og:url" content="http://snowbootstomp.herokuapp.com/">
 		<meta name="og:description" content="">
-		<meta name="og:image" content="http://snowbootstomp.herokuapp.com/"> <!-- 1200x630 -->
+		<meta name="og:image" content="http://snowbootstomp.herokuapp.com/images/fb.png"> <!-- 1200x630 -->
 		<meta name="og:app_id" content="748687018544609">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -70,10 +70,8 @@
 					  class="fb-like"
 					  data-href="http://snowbootstomp.herokuapp.com/"
 					  data-share="false"
-					  data-share="true"
 					  data-width="300"
-					  data-show-faces="true"
-					  data-colorscheme="dark">
+					  data-show-faces="true">
 					</div>
 				</div>
 			</div>
@@ -85,9 +83,7 @@
 			<div class="row" ng-repeat="location in locationlist">
 				<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
 				<div class="streetview columns small-4 small-push-8 medium-2 medium-push-0">
-					<a class="th" href="#" ng-click="openModal('https://maps.googleapis.com/maps/api/streetview?key=' + maps_key + '&size=300x300&location=' + location.latitude + ',' + location.longitude + location.streetViewParams)">
-						<img class="" ng-src="https://maps.googleapis.com/maps/api/streetview?key={{maps_key}}&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" />
-					</a>
+					<img class="th" ng-src="{{location.streetViewPhoto.thumbnail}}" alt="{{location.name}}" ng-click="openModal(location.streetViewPhoto.large)" />
 				</div>
 
 				<div class="columns small-8 small-pull-4 medium-3 medium-pull-0" itemscope itemtype="http://schema.org/LocalBusiness">
@@ -99,7 +95,7 @@
 							<span class="state" itemprop="addressRegion">{{location.state}}</span>
 							<span class="zip" itemprop="postalCode">{{location.zip}}</span>
 						</address>
-						<a role="button" href="//maps.apple.com/?daddr={{location.street}}%20{{location.city}},%20{{location.state}}%20{{location.zip}}" class="button tiny">Directions</a>
+						<a role="button" href="{{location.directions}}" class="button tiny">Directions</a>
 					</div>
 				</div>
 

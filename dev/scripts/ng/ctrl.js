@@ -17,8 +17,6 @@ app.controller('ctrl', [
     $scope.locationlist = [];
     $scope.userlist = {};
 
-    window.userlist = $scope.userlist;
-
     $scope.user = {
         connected: null // represents a nullable type. take that.
     };
@@ -35,6 +33,25 @@ app.controller('ctrl', [
 
     function getLocations(){
         svc.getLocations().success(function(data){
+
+            function buildStreetViewPhotoUrl(dim, data){
+                return 'https://maps.googleapis.com/maps/api/streetview?key=' + google_maps_key + '&size=' + dim + 'x' + dim + '&location=' + data.latitude + ',' + data.longitude + data.streetViewParams;
+            }
+
+            function buildDirectionsUrl(data){
+                return '//maps.apple.com/?daddr=' + data.street + '%20' + data.city + ',%20' + data.state + '%20' + data.zip;
+            }
+
+            for(var i in data){
+                angular.extend( data[i], {
+                    streetViewPhoto: {
+                        thumbnail: buildStreetViewPhotoUrl( 120, data[i]),
+                        large: buildStreetViewPhotoUrl( 300, data[i])
+                    },
+                    directions: buildDirectionsUrl(data[i])
+                });
+            }
+
             angular.extend($scope.locationlist, data);
         });
     }
@@ -233,7 +250,6 @@ app.controller('ctrl', [
     /**
      * Foundation Angular Methods
      */
-    window.user = $scope.user;
 
     // http://pineconellc.github.io/angular-foundation/
     $scope.openModal = function(string){

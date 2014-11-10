@@ -29,6 +29,13 @@ $ git push heroku master
 $ heroku open
 ```
 
+To use Grunt with Bower and Compass, set the configuration variables:
+
+| Config Var      | Value        |
+|-----------------|--------------|
+| `BUILDPACK_URL` | `https://github.com/stephanmelzer/heroku-buildpack-nodejs-grunt-compass.git` |
+| `NODE_ENV`      | `production` |
+
 ## Documentation
 
 For more information about using Node.js on Heroku, see these Dev Center articles:

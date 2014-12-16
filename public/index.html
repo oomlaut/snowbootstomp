@@ -12,16 +12,13 @@
 		<meta name="og:site_name" content="Snowboot Stomp">
 		<meta name="og:url" content="http://snowbootstomp.herokuapp.com/">
 		<meta name="og:description" content="">
-		<meta name="og:image" content="http://snowbootstomp.herokuapp.com/"> <!-- 1200x630 -->
+		<meta name="og:image" content="http://snowbootstomp.herokuapp.com/images/fb.png"> <!-- 1200x630 -->
 		<meta name="og:app_id" content="748687018544609">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="stylesheet" href="styles/main.css">
-
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-		<script src="/scripts/libs.min.js"></script>
-		<script src="/scripts/ng.js"></script>
+		<script src="/scripts/app.min.js"></script>
 
 	</head>
 	<body ng-controller="ctrl">
@@ -29,7 +26,6 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 
-		<!-- Add your site or application content here -->
 
 		<header class="contain-to-grid sticky">
 			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
@@ -38,22 +34,8 @@
 						<h1><a href="#">Snowboot Stomp</a></h1>
 					</li>
 					<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+					<!-- li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li -->
 				</ul>
-
-				<!-- <section class="top-bar-section">
-
-					< !-- Left Nav Section -- >
-					<ul class="left">
-						<li><a href="#connect">Connect with Facebook</a></li>
-						<li><a href="#check-in">Check-in to Unlock Specials</a></li>
-					</ul>
-					<ul class="right">
-						<li>
-						</li>
-					</ul>
-				</section> -->
-
 			</nav>
 		</header>
 
@@ -66,11 +48,10 @@
 
 		<section ng-show="facebookReady">
 			<div class="row" ng-hide="user.connected">
-
-				<div class="columns medium-3">
-					<button class="button large" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
+				<div class="columns small-12 medium-3">
+					<button class="button expand" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
 				</div>
-				<div class="columns medium-9">
+				<div class="columns small-12 medium-9">
 					<h2>Use Facebook to Log In.</h2>
 					<p>Instead of creating an account We won't collect any personal information from you at all.</p>
 					<p>Really.</p>
@@ -79,36 +60,34 @@
 			</div>
 
 			<div class="row" ng-show="user.connected">
-				<div class="columns medium-3">
-					<img width="50" height="50" class="left" ng-src="{{userlist[user.uid].picture.url}}" alt="">
+				<div class="columns small-12 medium-3">
+					<img width="50" height="50" class="th left" ng-src="{{userlist[user.uid].picture.url}}" alt="">
 					{{userlist[user.uid].name}}
 				</div>
-				<div class="columns small-9">
+				<div class="columns small-12 medium-9">
 					<h2>Thanks for connecting.</h2>
 					<div
 					  class="fb-like"
 					  data-href="http://snowbootstomp.herokuapp.com/"
 					  data-share="false"
-					  data-share="true"
-					  data-width="320"
-					  data-show-faces="true"
-					  data-colorscheme="dark">
+					  data-width="300"
+					  data-show-faces="true">
 					</div>
 				</div>
 			</div>
 
-			<div id="check-in">
-				<div class="row">
-					<h2 class="columns large-12">Stops on the Stomp</h2>
+			<div class="row">
+				<h2 class="columns small-12">Stops on the Stomp</h2>
+			</div>
+
+			<div class="row" ng-repeat="location in locationlist">
+				<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
+				<div class="streetview columns small-4 small-push-8 medium-2 medium-push-0">
+					<img class="th" ng-src="{{location.streetViewPhoto.thumbnail}}" alt="{{location.name}}" ng-click="openModal(location.streetViewPhoto.large)" />
 				</div>
 
-				<div class="row" ng-repeat="location in locationlist">
-					<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
-					<div class="streetview columns large-2">
-						<a class="th" href="#"><img class="" ng-src="https://maps.googleapis.com/maps/api/streetview??key=AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo&size=120x120&location={{location.latitude}},{{location.longitude}}{{location.streetViewParams}}" alt="{{location.name}}" /></a>
-					</div>
-
-					<div class="vcard columns large-3" itemscope itemtype="http://schema.org/LocalBusiness">
+				<div class="columns small-8 small-pull-4 medium-3 medium-pull-0" itemscope itemtype="http://schema.org/LocalBusiness">
+					<div class="card">
 						<h3 class="fn" itemprop="name">{{location.name}}</h3>
 						<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 							<span class="street-address" itemprop="streetAddress">{{location.street}}</span>
@@ -116,27 +95,31 @@
 							<span class="state" itemprop="addressRegion">{{location.state}}</span>
 							<span class="zip" itemprop="postalCode">{{location.zip}}</span>
 						</address>
-						<a role="button" href="//maps.apple.com/?daddr={{location.street}}%20{{location.city}},%20{{location.state}}%20{{location.zip}}" class="button tiny">Directions</a>
+						<a role="button" href="{{location.directions}}" class="button tiny">Directions</a>
 					</div>
-
-					<div class="columns large-4">
-						<h4>Check-ins</h4>
-						<ul class="checkins" ng-if="location.checkins">
-							<li ng-repeat="checkin in location.checkins track by $index"><img ng-src="{{userlist[checkin].picture.url}}" alt=""></li>
-						</ul>
-					</div>
-
-					<div class="columns large-3" ng-if="user.connected">
-						<div ng-hide="hasCheckedIn(location)">
-							<button class="button small" ng-click="checkin(location.id)">Check in</button>
-						</div>
-						<div ng-show="hasCheckedIn(location)">
-							<h4>Specials</h4>
-							<p>{{location.details}}</p>
-						</div>
-					</div>
-
 				</div>
+
+				<div class="columns small-12 medium-4" ng-show="location.checkins">
+					<h4>Check-ins</h4>
+					<ul class="checkins inline-list">
+						<li ng-repeat="checkin in location.checkins track by $index"><a href="{{userlist[checkin].link}}" class="th" role="button" aria-label="Thumbnail" title="{{userlist[checkin].name}}"><img ng-src="{{userlist[checkin].picture.url}}" alt="{{userlist[checkin].name}}"></a></li>
+					</ul>
+				</div>
+
+				<div class="columns small-12 medium-4" ng-hide="location.checkins">
+					<p>Be the first to check in here!</p>
+				</div>
+
+				<div class="columns small-12 medium-3" ng-show="user.connected">
+					<div ng-hide="hasCheckedIn(location)">
+						<button class="button extend" ng-click="checkin(location.id)">Check in</button>
+					</div>
+					<div ng-show="hasCheckedIn(location)">
+						<h4>Specials</h4>
+						<p>{{location.details}}</p>
+					</div>
+				</div>
+
 			</div>
 		</section>
 
@@ -154,5 +137,13 @@
 			</nav>
 		</footer>
 
+		<script type="text/ng-template" id="myModalContent.html">
+			<div class="row">
+				<div class="columns small-12 text-center">
+					<img class="th" ng-src="{{imageurl}}">
+				</div>
+			</div>
+			<a class="close-reveal-modal" ng-click="cancel()">&#215;</a>
+		</script>
 	</body>
 </html>

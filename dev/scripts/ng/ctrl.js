@@ -1,10 +1,19 @@
-app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function ctrl ($scope, $interval, svc, ga, Facebook){
+app.controller('ctrl', [
+               '$scope',
+               '$interval',
+               'svc',
+               'ga',
+               'google_maps_key',
+               'Facebook',
+               '$modal',
+   function ctrl ($scope, $interval, svc, ga, google_maps_key, Facebook, $modal){
 
     'use strict';
 
     // Initialize Google Analytics
     ga.init();
 
+    $scope.maps_key = google_maps_key;
     $scope.locationlist = [];
     $scope.userlist = {};
 
@@ -24,6 +33,25 @@ app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function
 
     function getLocations(){
         svc.getLocations().success(function(data){
+
+            function buildStreetViewPhotoUrl(dim, data){
+                return 'https://maps.googleapis.com/maps/api/streetview?key=' + google_maps_key + '&size=' + dim + 'x' + dim + '&location=' + data.latitude + ',' + data.longitude + data.streetViewParams;
+            }
+
+            function buildDirectionsUrl(data){
+                return '//maps.apple.com/?daddr=' + data.street + '%20' + data.city + ',%20' + data.state + '%20' + data.zip;
+            }
+
+            for(var i in data){
+                angular.extend( data[i], {
+                    streetViewPhoto: {
+                        thumbnail: buildStreetViewPhotoUrl( 120, data[i]),
+                        large: buildStreetViewPhotoUrl( 300, data[i])
+                    },
+                    directions: buildDirectionsUrl(data[i])
+                });
+            }
+
             angular.extend($scope.locationlist, data);
         });
     }
@@ -219,4 +247,33 @@ app.controller('ctrl', ['$scope', '$interval', 'svc', 'ga', 'Facebook', function
 
     /** #end CheckIn Methods **/
 
+    /**
+     * Foundation Angular Methods
+     */
+
+    // http://pineconellc.github.io/angular-foundation/
+    $scope.openModal = function(string){
+        var modalInstance = $modal.open({
+            templateUrl: 'myModalContent.html',
+            controller: modalInstanceCtrl,
+            resolve: {
+                imageurl: function () {
+                   return string;
+                }
+            }
+        });
+    };
+
+    var modalInstanceCtrl = function ($scope, $modalInstance, imageurl) {
+
+      $scope.imageurl = imageurl;
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    };
+    /** end Foundation Angular **/
+
 }]);
+
+

@@ -57,7 +57,7 @@
 				<div class="columns small-12 medium-9">
 					<h2>Use Facebook to Join the Party</h2>
 					<p>Instead of creating an account and password just for this one-time event, it&rsquo;s a whole lot easier to participate using Facebook.</p>
-					<p>Connecting will let us use your publicly available profile picture. We won't collect any personal information from you at all.</p>
+					<p>Connecting will let us use your publicly available profile to display your picture. We won&rsquo;t collect any other personal information from you at all.</p>
 					<p>Promise.</p>
 					<p>So have fun, be safe and celebrate Jill&rsquo;s birthday!</p>
 				</div>
@@ -119,36 +119,6 @@
 					<div ng-show="location.checkins">
 						<h4>Check-ins</h4>
 						<ul class="checkin-list inline-list">
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
-							<li class="checkin">
-								<a class="th checkin-user-link" href="#">
-									<img class="checkin-user-thumb" src="//placehold.it/50">
-								</a>
-							</li>
 							<li class="checkin" ng-repeat="checkin in location.checkins track by $index">
 								<a href="{{userlist[checkin].link}}" class="th checkin-user-link" role="button" aria-label="Thumbnail" title="{{userlist[checkin].name}}">
 									<img class="checkin-user-thumb" ng-src="{{userlist[checkin].picture.url}}" alt="{{userlist[checkin].name}}" width="50" height="50" >

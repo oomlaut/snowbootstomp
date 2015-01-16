@@ -30,14 +30,63 @@ video {
 }
 
 
+.facebook-login-button,
+.facebook-user {
+    padding-top:1em;
+}
+
+.facebook-user-name {
+    margin-left:1em;
+}
+
 .checkins.inline-list {
 	overflow: visible;
 }
 
-.card h3 {
-	margin-top: 0;
+.row-title {
+    padding-top:1em;
+}
+
+.stomp-stop {
+    margin-bottom:2rem;
+}
+
+.card {
+    .fn {
+    	margin-top: 0;
+        margin-bottom:0;
+    }
+
+    .postal-address {
+        padding-bottom:0.5em;
+    }
+
+    .button-directions {
+        margin-bottom:0;
+    }
 }
 
 address .street-address {
 	display:block;
+}
+
+.checkins{
+    .checkin-list {
+        padding-top:1px;
+        padding-bottom:1px;
+    }
+
+    .checkin {
+        margin-bottom:1.375rem;
+    }
+
+    .checkin-user-thumb {
+        display:block;
+        width:50px;
+        height:50px;
+    }
+}
+
+footer.row {
+    margin-top:4rem;
 }

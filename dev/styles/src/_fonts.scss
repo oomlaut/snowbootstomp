@@ -15,14 +15,14 @@ $golden-ratio: 1.61803398875;
     }
 }
 
-@include font-base('For Winter', 'for_winter');
+// @include font-base('For Winter', 'for_winter');
 
-@include font-base('Krystal', 'krystal');
+// @include font-base('Krystal', 'krystal');
 
-@include font-base('Abril Fatface', 'abrilfatface');
+// @include font-base('Abril Fatface', 'abrilfatface');
 
 // Load Font Awesome icons from Bower packages
 @import "font-awesome";
 
 // Favorite Google Fonts: Fira Sans, Cabin,
-@import url("//fonts.googleapis.com/css?family=News+Cycle:400,700");
+@import url("//fonts.googleapis.com/css?family=Lato|Changa+One");

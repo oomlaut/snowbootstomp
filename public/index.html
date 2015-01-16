@@ -26,12 +26,11 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 
-
 		<header class="contain-to-grid sticky">
-			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+			<nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: small">
 				<ul class="title-area">
 					<li class="name">
-						<h1><a href="#">Snowboot Stomp</a></h1>
+						<h1><a href="#">Jill&rsquo;s 32<sup>nd</sup> Birthday Party/ 'Stallis Snowboot Stomp</a></h1>
 					</li>
 					<!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
 					<!-- li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li -->
@@ -41,31 +40,40 @@
 
 		<section ng-hide="facebookReady">
 			<div class="row">
-				<h2>Connecting&hellip;</h2>
-				<p>Please wait while we configure the connection to Facebook.</p>
+				<div class="columns small-12">
+					<h2>Connecting&hellip;</h2>
+					<p>Please wait while we configure the connection to Facebook.</p>
+				</div>
 			</div>
 		</section>
 
 		<section ng-show="facebookReady">
 			<div class="row" ng-hide="user.connected">
 				<div class="columns small-12 medium-3">
-					<button class="button expand" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
+					<p class="facebook-login-button">
+						<button class="button expand" ng-click="IntentLogin()"><i class="fa fa-facebook-square"></i> Login</button>
+					</p>
 				</div>
 				<div class="columns small-12 medium-9">
-					<h2>Use Facebook to Log In.</h2>
-					<p>Instead of creating an account We won't collect any personal information from you at all.</p>
-					<p>Really.</p>
-					<p>Logging in will just allow us to link your already public name and profile image to the app for display purposes.</p>
+					<h2>Use Facebook to Join the Party</h2>
+					<p>Instead of creating an account and password just for this one-time event, it&rsquo;s a whole lot easier to participate using Facebook.</p>
+					<p>Connecting will let us use your publicly available profile picture. We won't collect any personal information from you at all.</p>
+					<p>Promise.</p>
+					<p>So have fun, be safe and celebrate Jill&rsquo;s birthday!</p>
 				</div>
 			</div>
 
 			<div class="row" ng-show="user.connected">
-				<div class="columns small-12 medium-3">
-					<img width="50" height="50" class="th left" ng-src="{{userlist[user.uid].picture.url}}" alt="">
-					{{userlist[user.uid].name}}
+				<div class="columns small-12 medium-3 facebook-connected">
+					<p class="facebook-user">
+						<img width="50" height="50" class="th left" ng-src="{{userlist[user.uid].picture.url}}" alt="">
+						<span class="facebook-user-name">{{userlist[user.uid].name}}</span>
+					</p>
 				</div>
 				<div class="columns small-12 medium-9">
 					<h2>Thanks for connecting.</h2>
+					<p>Now you can check in at the stops and unlock drink specials.</p>
+					<p>So have fun, be safe and celebrate Jill&rsquo;s birthday!</p>
 					<div
 					  class="fb-like"
 					  data-href="http://snowbootstomp.herokuapp.com/"
@@ -76,47 +84,89 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row row-title">
 				<h2 class="columns small-12">Stops on the Stomp</h2>
 			</div>
 
-			<div class="row" ng-repeat="location in locationlist">
+			<div class="row stomp-stop" ng-repeat="location in locationlist">
 				<!-- Google Maps API Key: AIzaSyDup48TwXtBAxjzfbogipPvaeTegRxfWJo -->
 				<div class="streetview columns small-4 small-push-8 medium-2 medium-push-0">
-					<img class="th" ng-src="{{location.streetViewPhoto.thumbnail}}" alt="{{location.name}}" ng-click="openModal(location.streetViewPhoto.large)" />
+					<img class="th" ng-src="{{location.streetViewPhoto.thumbnail}}" alt="{{location.name}}" ng-click="openModal(location.streetViewPhoto.large)" width="128" height="128" />
 				</div>
 
 				<div class="columns small-8 small-pull-4 medium-3 medium-pull-0" itemscope itemtype="http://schema.org/LocalBusiness">
 					<div class="card">
 						<h3 class="fn" itemprop="name">{{location.name}}</h3>
-						<address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+						<address class="postal-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 							<span class="street-address" itemprop="streetAddress">{{location.street}}</span>
 							<span class="locality" itemprop="addressLocality">{{location.city}}</span>,
 							<span class="state" itemprop="addressRegion">{{location.state}}</span>
 							<span class="zip" itemprop="postalCode">{{location.zip}}</span>
 						</address>
-						<a role="button" href="{{location.directions}}" class="button tiny">Directions</a>
+						<a role="button" href="{{location.directions}}" class="button tiny button-directions">Directions</a>
 					</div>
 				</div>
 
-				<div class="columns small-12 medium-4" ng-show="location.checkins">
-					<h4>Check-ins</h4>
-					<ul class="checkins inline-list">
-						<li ng-repeat="checkin in location.checkins track by $index"><a href="{{userlist[checkin].link}}" class="th" role="button" aria-label="Thumbnail" title="{{userlist[checkin].name}}"><img ng-src="{{userlist[checkin].picture.url}}" alt="{{userlist[checkin].name}}"></a></li>
-					</ul>
+				<div class="columns small-12 medium-7" ng-hide="user.connected">
+					<p>Connect with Facebook above to check in and unlock drink specials.</p>
 				</div>
 
-				<div class="columns small-12 medium-4" ng-hide="location.checkins">
-					<p>Be the first to check in here!</p>
+				<div class="columns small-12 medium-4 checkins" ng-show="user.connected">
+					<div ng-hide="location.checkins">
+						<p>Be the first to check in here!</p>
+					</div>
+
+					<div ng-show="location.checkins">
+						<h4>Check-ins</h4>
+						<ul class="checkin-list inline-list">
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin">
+								<a class="th checkin-user-link" href="#">
+									<img class="checkin-user-thumb" src="//placehold.it/50">
+								</a>
+							</li>
+							<li class="checkin" ng-repeat="checkin in location.checkins track by $index">
+								<a href="{{userlist[checkin].link}}" class="th checkin-user-link" role="button" aria-label="Thumbnail" title="{{userlist[checkin].name}}">
+									<img class="checkin-user-thumb" ng-src="{{userlist[checkin].picture.url}}" alt="{{userlist[checkin].name}}" width="50" height="50" >
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
 
 				<div class="columns small-12 medium-3" ng-show="user.connected">
 					<div ng-hide="hasCheckedIn(location)">
 						<button class="button extend" ng-click="checkin(location.id)">Check in</button>
 					</div>
-					<div ng-show="hasCheckedIn(location)">
+					<div class="specials" ng-show="hasCheckedIn(location)">
 						<h4>Specials</h4>
-						<p>{{location.details}}</p>
+						<ul>
+							<li ng-repeat="special in location.specials">{{special}}</li>
+						</ul>
 					</div>
 				</div>
 

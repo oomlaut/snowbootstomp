@@ -42,13 +42,18 @@ app.controller('ctrl', [
                 return '//maps.apple.com/?daddr=' + data.street + '%20' + data.city + ',%20' + data.state + '%20' + data.zip;
             }
 
+            function parseSpecials(data){
+                return (data.details != null) ? data.details.split('|') : ['None Available'];
+            }
+
             for(var i in data){
                 angular.extend( data[i], {
                     streetViewPhoto: {
                         thumbnail: buildStreetViewPhotoUrl( 120, data[i]),
                         large: buildStreetViewPhotoUrl( 300, data[i])
                     },
-                    directions: buildDirectionsUrl(data[i])
+                    directions: buildDirectionsUrl(data[i]),
+                    specials: parseSpecials(data[i])
                 });
             }
 

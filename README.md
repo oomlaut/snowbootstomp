@@ -2,6 +2,8 @@
 
 The web-app companion for the 1st Annual [Stallis Snowboot Stomp](http://snowbootstomp.herokuapp.com)
 
+[![endorse](https://api.coderwall.com/oomlaut/endorsecount.png)](https://coderwall.com/oomlaut)
+
 ## node.js on Heroku
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
